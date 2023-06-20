@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class HomeController extends Controller
 {
     public function home()
     {
-        return view('home');
+        $user = Auth::user();
+        return view('home')->with([
+            'role' => $user->role,
+            'name' => $user->name
+        ]);
     }
     public function users()
     {
@@ -42,16 +49,27 @@ class HomeController extends Controller
 
     public function signin()
     {
-        return view('auth/signin');
+        return view('auth.signin');
+    }
+
+    public function signin_check(Request $request)
+    {
+        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            return redirect()->route('home');
+        }
+        else{
+            return redirect()->back()->with('error','Invalid Credantials');
+        }
     }
 
     public function signup()
     {
-        return view('auth/signup');
+        return view('auth.signup');
     }
 
     public function logout()
     {
-        return view('auth/signin');
+        Auth::logout();
+        return redirect()->route('login');
     }
 }
