@@ -80,6 +80,7 @@ class HomeController extends Controller
         return view('home')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'data' => $data
         ]);
     }
@@ -87,6 +88,30 @@ class HomeController extends Controller
         $passenger = Passenager::where('id',$id)->first();
         if($passenger->delete()){
             return redirect()->back()->with('msg','Passenger Deleted!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function completeBooking($id){
+        if($this->statusChangeBooking($id,'completed')){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function onboardBooking($id){
+        if($this->statusChangeBooking($id,'onboard')){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function arriveBooking($id){
+        if($this->statusChangeBooking($id,'arrived')){
+            return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');
@@ -161,6 +186,7 @@ class HomeController extends Controller
         return view('partners')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'data' => $data
         ]);
     }
@@ -171,6 +197,7 @@ class HomeController extends Controller
         return view('vehicle_types')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'data' => $data
         ]);
     }
@@ -180,6 +207,7 @@ class HomeController extends Controller
         return view('addPassenger')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'booking_id' => $booking_id
         ]);
     }
@@ -207,6 +235,7 @@ class HomeController extends Controller
         return view('assignDriver')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'drivers' => $drivers,
             'booking' => $booking
         ]);
@@ -226,6 +255,7 @@ class HomeController extends Controller
         return view('addDrivers')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'edit' => true,
             'driver' => $driver
         ]);
@@ -238,6 +268,7 @@ class HomeController extends Controller
         return view('add_booking')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'edit' => true,
             'booking' => $booking,
             'vehicleTypes' => $vehicleTypes
@@ -250,6 +281,7 @@ class HomeController extends Controller
         return view('addPassenger')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'edit' => true,
             'passenger' => $passenger,
             'booking_id' => $booking_id
@@ -262,6 +294,7 @@ class HomeController extends Controller
         return view('addVehicle')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'edit' => true,
             'vehicle' => $vehicle
         ]);
@@ -273,6 +306,7 @@ class HomeController extends Controller
         return view('addPartners')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'edit' => true,
             'partner' => $partner
         ]);
@@ -457,6 +491,19 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+    public function viewPassengers($booking_id)
+    {
+        $user = Auth::user();
+        $passengers = Passenager::where('booking_id',$booking_id)->get();
+        return view('passengers')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'view' => true,
+            'passengers' => $passengers,
+            'booking_id' => $booking_id
+        ]);
+    }
     public function passengers($booking_id)
     {
         $user = Auth::user();
@@ -464,6 +511,7 @@ class HomeController extends Controller
         return view('passengers')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'passengers' => $passengers,
             'booking_id' => $booking_id
         ]);
@@ -475,6 +523,7 @@ class HomeController extends Controller
         return view('drivers')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'data' => $data
         ]);
     }
@@ -489,7 +538,53 @@ class HomeController extends Controller
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'for_partner' => true,
+            'bookings' => $bookings
+        ]);
+    }
+    public function completedBookings($driver_id)
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"completed")->where('driver_id',$driver_id)->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'bookings' => $bookings
+        ]);
+    }
+    public function onboardBookings($driver_id)
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"onboard")->where('driver_id',$driver_id)->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'bookings' => $bookings
+        ]);
+    }
+    public function assignedDriverBookings($driver_id)
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"assigned")->where('driver_id',$driver_id)->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'driver' => true,
+            'bookings' => $bookings
+        ]);
+    }
+    public function arrivedBookings($driver_id)
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"arrived")->where('driver_id',$driver_id)->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
             'bookings' => $bookings
         ]);
     }
@@ -500,6 +595,7 @@ class HomeController extends Controller
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'bookings' => $bookings
         ]);
     }
@@ -510,6 +606,7 @@ class HomeController extends Controller
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'bookings' => $bookings
         ]);
     }
@@ -520,6 +617,7 @@ class HomeController extends Controller
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'accepted' => true,
             'bookings' => $bookings
         ]);
@@ -531,6 +629,7 @@ class HomeController extends Controller
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'bookings' => $bookings
         ]);
     }
@@ -541,6 +640,7 @@ class HomeController extends Controller
         return view('add_booking')->with([
             'role' => $user->role,
             'name' => $user->name,
+            'id' => $user->id,
             'vehicleTypes' => $vehicleTypes
         ]);
     }

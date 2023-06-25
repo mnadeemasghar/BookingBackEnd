@@ -26,7 +26,9 @@
                 <div class="col-12">
                     <div class="bg-secondary rounded h-100 p-4">
                         <h6 class="mb-4">Passengers Data</h6>
-                        <a href="{{route('addPassenger',['booking_id' => $booking_id])}}" class="btn btn-primary">Add Passenger</a>
+                        @if (!isset($view))
+                            <a href="{{route('addPassenger',['booking_id' => $booking_id])}}" class="btn btn-primary">Add Passenger</a>
+                        @endif
                         <div class="table-responsive">
                             <table class="table  table-hover">
                                 <thead>
@@ -56,9 +58,11 @@
                                             <td>{{$passenger->flight_airline}}</td>
                                             <td>{{$passenger->flight_arriving_from}}</td>
                                             <td>
-                                                <a href="{{route('editPassenger',['id'=>$passenger->id])}}"> <i class="fa fa-edit"></i>Edit</a>
-                                                |
-                                                <a href="{{route('deletePassenger',['id'=>$passenger->id])}}"> <i class="fa fa-trash"></i>Delete</a>
+                                                @if (!isset($view))
+                                                    <a href="{{route('editPassenger',['id'=>$passenger->id])}}"> <i class="fa fa-edit"></i>Edit</a>
+                                                    |
+                                                    <a href="{{route('deletePassenger',['id'=>$passenger->id])}}"> <i class="fa fa-trash"></i>Delete</a>
+                                                @endif
 
                                             </td>
                                         </tr>

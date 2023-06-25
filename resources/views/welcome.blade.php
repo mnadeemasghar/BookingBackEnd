@@ -71,6 +71,11 @@
                         <a href="{{route('rejectedBookings')}}" class="nav-item nav-link {{ request()->routeIs('rejectedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Rejected</a>
                     @elseif ($role == 'Partner')
                         <a href="{{route('bookings')}}" class="nav-item nav-link {{ request()->routeIs('bookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Bookings</a>
+                    @elseif ($role == 'Driver')
+                        <a href="{{route('assignedDriverBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('assignedDriverBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Assigned</a>
+                        <a href="{{route('arrivedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('arrivedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Arrived</a>
+                        <a href="{{route('onboardBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('onboardBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Onboard</a>
+                        <a href="{{route('completedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('completedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Completed</a>
                     @endif
                     <a href="{{route('logout')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Logout</a>
                 </div>
