@@ -33,42 +33,34 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">First Name</th>
-                                    <th scope="col">Last Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Country</th>
-                                    <th scope="col">ZIP</th>
+                                    <th scope="col">Destination</th>
+                                    <th scope="col">Location</th>
+                                    <th scope="col">Pick Date</th>
+                                    <th scope="col">Vehicle Type</th>
+                                    <th scope="col">Extras</th>
+                                    <th scope="col">Passengers</th>
                                     <th scope="col">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>John</td>
-                                    <td>Doe</td>
-                                    <td>jhon@email.com</td>
-                                    <td>USA</td>
-                                    <td>123</td>
-                                    <td>Member</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>mark@email.com</td>
-                                    <td>UK</td>
-                                    <td>456</td>
-                                    <td>Member</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>jacob@email.com</td>
-                                    <td>AU</td>
-                                    <td>789</td>
-                                    <td>Member</td>
-                                </tr>
+                                @foreach ($bookings as $booking)
+                                    <tr>
+                                        <td>{{$booking->id}}</td>
+                                        <td>{{$booking->destination}}</td>
+                                        <td>{{$booking->location}}</td>
+                                        <td>{{$booking->pick_date_time}}</td>
+                                        <td>{{$booking->vehicle_type}}</td>
+                                        <td>{{$booking->extras}}</td>
+                                        <td>{{$booking->passengers->count()}}</td>
+                                        <td>
+                                            <a href="{{route('passengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
+                                            |
+                                            <a href="{{route('editBooking',['id'=>$booking->id])}}"> <i class="fa fa-edit"></i>Edit</a>
+                                            |
+                                            <a href="{{route('deleteBooking',['id'=>$booking->id])}}"> <i class="fa fa-trash"></i>Delete</a>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>

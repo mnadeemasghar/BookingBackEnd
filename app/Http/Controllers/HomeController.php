@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
+use App\Models\Passenager;
 use App\Models\User;
+use App\Models\VehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -79,6 +82,33 @@ class HomeController extends Controller
             'data' => $data
         ]);
     }
+    public function deletePassenger($id){
+        $passenger = Passenager::where('id',$id)->first();
+        if($passenger->delete()){
+            return redirect()->back()->with('msg','Passenger Deleted!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function deleteBooking($id){
+        $user = Booking::where('id',$id)->first();
+        if($user->delete()){
+            return redirect()->back()->with('msg','Booking Deleted!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function deleteVehicle($id){
+        $user = VehicleType::where('id',$id)->first();
+        if($user->delete()){
+            return redirect()->back()->with('msg','Vehicle Deleted!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
     public function usersDelete($id){
         $user = User::where('id',$id)->first();
         if($user->delete()){
@@ -102,10 +132,37 @@ class HomeController extends Controller
             'data' => $data
         ]);
     }
+    public function vehicleTypes()
+    {
+        $user = Auth::user();
+        $data = VehicleType::get();
+        return view('vehicle_types')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'data' => $data
+        ]);
+    }
+    public function addPassenger($booking_id)
+    {
+        $user = Auth::user();
+        return view('addPassenger')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'booking_id' => $booking_id
+        ]);
+    }
     public function addDrivers()
     {
         $user = Auth::user();
         return view('addDrivers')->with([
+            'role' => $user->role,
+            'name' => $user->name
+        ]);
+    }
+    public function addVehicle()
+    {
+        $user = Auth::user();
+        return view('addVehicle')->with([
             'role' => $user->role,
             'name' => $user->name
         ]);
@@ -127,6 +184,42 @@ class HomeController extends Controller
             'name' => $user->name,
             'edit' => true,
             'driver' => $driver
+        ]);
+    }
+    public function editBooking($id)
+    {
+        $user = Auth::user();
+        $booking = Booking::where('id',$id)->first();
+        $vehicleTypes = VehicleType::get();
+        return view('add_booking')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'edit' => true,
+            'booking' => $booking,
+            'vehicleTypes' => $vehicleTypes
+        ]);
+    }
+    public function editPassenger($booking_id)
+    {
+        $user = Auth::user();
+        $passenger = Passenager::where('booking_id',$booking_id)->first();
+        return view('addPassenger')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'edit' => true,
+            'passenger' => $passenger,
+            'booking_id' => $booking_id
+        ]);
+    }
+    public function editVehicle($id)
+    {
+        $user = Auth::user();
+        $vehicle = VehicleType::where('id',$id)->first();
+        return view('addVehicle')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'edit' => true,
+            'vehicle' => $vehicle
         ]);
     }
     public function editPartners($id)
@@ -170,6 +263,53 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+    public function updatePassenger(Request $request, $id)
+    {
+        $passenger = Passenager::where('id',$id)->first();
+        $passenger->name = $request->name;
+        $passenger->phone_number = $request->phone_number;
+        $passenger->suitcase_number = $request->suitcase_number;
+        $passenger->flight_date_time = $request->flight_date_time;
+        $passenger->flight_number = $request->flight_number;
+        $passenger->flight_airline = $request->flight_airline;
+        $passenger->flight_arriving_from = $request->flight_arriving_from;
+
+        if($passenger->save()){
+            return redirect()->back()->with('msg','Passenger Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function updateBooking(Request $request, $id)
+    {
+        $booking = Booking::where('id',$id)->first();
+        $booking->destination = $request->destination;
+        $booking->location = $request->location;
+        $booking->pick_date_time = $request->pick_date_time;
+        $booking->vehicle_type = $request->vehicle_type;
+        $booking->extras = $request->extras;
+        $booking->partner_id = Auth::user()->id;
+
+        if($booking->save()){
+            return redirect()->back()->with('msg','Booking Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function updateVehicle(Request $request, $id)
+    {
+        $vehicle = VehicleType::where('id',$id)->first();
+        $vehicle->type = $request->type;
+
+        if($vehicle->save()){
+            return redirect()->back()->with('msg','Vehicle Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
     public function updatePartners(Request $request, $id)
     {
         $user = User::where('id',$id)->first();
@@ -180,6 +320,54 @@ class HomeController extends Controller
 
         if($user->save()){
             return redirect()->back()->with('msg','Partner Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function storePassenger(Request $request, $booking_id)
+    {
+        $passenger = new Passenager();
+        $passenger->booking_id = $booking_id;
+        $passenger->name = $request->name;
+        $passenger->phone_number = $request->phone_number;
+        $passenger->suitcase_number = $request->suitcase_number;
+        $passenger->flight_date_time = $request->flight_date_time;
+        $passenger->flight_number = $request->flight_number;
+        $passenger->flight_airline = $request->flight_airline;
+        $passenger->flight_arriving_from = $request->flight_arriving_from;
+
+        if($passenger->save()){
+            return redirect()->back()->with('msg','Passenger Added!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function storeBooking(Request $request)
+    {
+        $booking = new Booking();
+        $booking->destination = $request->destination;
+        $booking->location = $request->location;
+        $booking->pick_date_time = $request->pick_date_time;
+        $booking->vehicle_type = $request->vehicle_type;
+        $booking->extras = $request->extras;
+        $booking->partner_id = Auth::user()->id;
+
+        if($booking->save()){
+            return redirect()->back()->with('msg','Booking Added!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function storeVehicle(Request $request)
+    {
+        $vehicle = new VehicleType();
+        $vehicle->type = $request->type;
+
+        if($vehicle->save()){
+            return redirect()->back()->with('msg','Vehicle Added!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');
@@ -200,6 +388,17 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+    public function passengers($booking_id)
+    {
+        $user = Auth::user();
+        $passengers = Passenager::where('booking_id',$booking_id)->get();
+        return view('passengers')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'passengers' => $passengers,
+            'booking_id' => $booking_id
+        ]);
+    }
     public function drivers()
     {
         $user = Auth::user();
@@ -217,21 +416,21 @@ class HomeController extends Controller
     public function bookings()
     {
         $user = Auth::user();
-        $data = User::where('role','Driver')->get();
+        $bookings = Booking::where('partner_id',$user->id)->with('passengers')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
-            'data' => $data
+            'bookings' => $bookings
         ]);
     }
     public function addBooking()
     {
         $user = Auth::user();
-        $data = User::where('role','Driver')->get();
+        $vehicleTypes = VehicleType::get();
         return view('add_booking')->with([
             'role' => $user->role,
             'name' => $user->name,
-            'data' => $data
+            'vehicleTypes' => $vehicleTypes
         ]);
     }
     public function extras()

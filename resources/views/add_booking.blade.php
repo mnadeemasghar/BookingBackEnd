@@ -26,7 +26,44 @@
         <div class="row g-4">
             <div class="col-12">
                 <div class="bg-secondary rounded h-100 p-4">
+                    @if(session()->has('msg'))
+                        <div class="alert alert-info">
+                            {{ session()->get('msg') }}
+                        </div>
+                    @elseif (session()->has('error'))
+                        <div class="alert alert-danger">
+                            {{ session()->get('error') }}
+                        </div>
+                    @endif
                     <h6 class="mb-4">Add Booking</h6>
+                    <form action="{{ isset($edit) ? route('updateBooking',['id'=> $booking->id]) : route('storeBooking') }}" method="POST">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="destination" class="form-label">Destination</label>
+                            <input type="text" name="destination" class="form-control" value="{{ isset($edit) ? $booking->destination:'' }}" placeholder="City Center, train station. Etc. hotel or property" id="destination">
+                        </div>
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" name="location" class="form-control" value="{{ isset($edit) ? $booking->location:'' }}" id="location">
+                        </div>
+                        <div class="mb-3">
+                            <label for="pick_date_time" class="form-label">Pick Date Time</label>
+                            <input type="datetime-local" name="pick_date_time" value="{{ isset($edit) ? $booking->pick_date_time:'' }}" class="form-control" id="pick_date_time">
+                        </div>
+                        <div class="mb-3">
+                            <label for="vehicle_type" class="form-label">Vehicle Type</label>
+                            <select name="vehicle_type" class="form-control" id="vehicle_type">
+                                @foreach ($vehicleTypes as $vehicleType)
+                                    <option value="{{ $vehicleType->type }}" {{ $booking->vehicle_type == $vehicleType->type ? "selected":"" }}>{{ $vehicleType->type }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="extras" class="form-label">Extras</label>
+                            <input type="text" name="extras" class="form-control" value="{{ isset($edit) ? $booking->extras:'' }}" placeholder="Wheelchair, Baby seat, child seat with additional cost" id="extras">
+                        </div>
+                        <button type="submit" class="btn btn-primary">{{ isset($edit) ? 'Update Booking':'Add Booking' }}</button>
+                    </form>
                 </div>
             </div>
         </div>

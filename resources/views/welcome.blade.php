@@ -64,6 +64,7 @@
                     @if ($role == 'Admin')
                         <a href="{{route('drivers')}}" class="nav-item nav-link {{ request()->routeIs('drivers') ? 'active' : '' }}"><i class="fa fa-car me-2"></i>Drivers</a>
                         <a href="{{route('partners')}}" class="nav-item nav-link {{ request()->routeIs('partners') ? 'active' : '' }}"><i class="fa fa-handshake me-2"></i></i>Partners</a>
+                        <a href="{{route('vehicleTypes')}}" class="nav-item nav-link {{ request()->routeIs('vehicleTypes') ? 'active' : '' }}"><i class="fa fa-car me-2"></i></i>Vehicle Types</a>
                     @elseif ($role == 'Partner')
                         <a href="{{route('bookings')}}" class="nav-item nav-link {{ request()->routeIs('bookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Bookings</a>
                     @endif
