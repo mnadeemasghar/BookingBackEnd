@@ -27,7 +27,9 @@
             <div class="col-12">
                 <div class="bg-secondary rounded h-100 p-4">
                     <h6 class="mb-4">Booking Data</h6>
-                    <a href="{{route('addBooking')}}" class="btn btn-primary">Create Booking</a>
+                    @if (isset($for_partner) && $for_partner)
+                        <a href="{{route('addBooking')}}" class="btn btn-primary">Create Booking</a>
+                    @endif
                     <div class="table-responsive">
                         <table class="table  table-hover">
                             <thead>
@@ -38,8 +40,10 @@
                                     <th scope="col">Pick Date</th>
                                     <th scope="col">Vehicle Type</th>
                                     <th scope="col">Extras</th>
+                                    <th scope="col">Driver ID</th>
                                     <th scope="col">Passengers</th>
                                     <th scope="col">Status</th>
+                                    <th scope="col">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -51,13 +55,25 @@
                                         <td>{{$booking->pick_date_time}}</td>
                                         <td>{{$booking->vehicle_type}}</td>
                                         <td>{{$booking->extras}}</td>
+                                        <td>{{$booking->driver_id}}</td>
                                         <td>{{$booking->passengers->count()}}</td>
+                                        <td>{{$booking->status}}</td>
                                         <td>
                                             <a href="{{route('passengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
+                                            @if (isset($for_partner) && $for_partner)
                                             |
                                             <a href="{{route('editBooking',['id'=>$booking->id])}}"> <i class="fa fa-edit"></i>Edit</a>
                                             |
                                             <a href="{{route('deleteBooking',['id'=>$booking->id])}}"> <i class="fa fa-trash"></i>Delete</a>
+                                            @elseif ($booking->status == 'pending')
+                                            |
+                                            <a href="{{route('acceptBooking',['id'=>$booking->id])}}"> <i class="fa fa-book"></i>Accept</a>
+                                            |
+                                            <a href="{{route('rejectBooking',['id'=>$booking->id])}}"> <i class="fa fa-book"></i>Reject</a>
+                                            @elseif ($booking->status == 'accepted')
+                                            |
+                                            <a href="{{route('assignDriver',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Assign</a>
+                                            @endif
                                         </td>
                                     </tr>
                                 @endforeach

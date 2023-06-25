@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Booking;
+use App\Models\BookingTimestamp;
 use App\Models\Passenager;
 use App\Models\User;
 use App\Models\VehicleType;
@@ -91,6 +92,37 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+    public function acceptBooking($id){
+        if($this->statusChangeBooking($id,'accepted')){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function rejectBooking($id){
+        if($this->statusChangeBooking($id,'rejected')){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function statusChangeBooking($id,$status){
+        $booking = Booking::where('id',$id)->first();
+        $booking->status = $status;
+
+        $timestamp = new BookingTimestamp();
+        $timestamp->booking_id = $id;
+        $timestamp->status = $status;
+
+        if($booking->save() && $timestamp->save() ){
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
     public function deleteBooking($id){
         $user = Booking::where('id',$id)->first();
         if($user->delete()){
@@ -165,6 +197,18 @@ class HomeController extends Controller
         return view('addVehicle')->with([
             'role' => $user->role,
             'name' => $user->name
+        ]);
+    }
+    public function assignDriver($booking_id)
+    {
+        $user = Auth::user();
+        $drivers = User::where('role','Driver')->get();
+        $booking = Booking::where('id',$booking_id)->first();
+        return view('assignDriver')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'drivers' => $drivers,
+            'booking' => $booking
         ]);
     }
     public function addPartners()
@@ -353,9 +397,34 @@ class HomeController extends Controller
         $booking->vehicle_type = $request->vehicle_type;
         $booking->extras = $request->extras;
         $booking->partner_id = Auth::user()->id;
+        $booking->status = "pending";
+
 
         if($booking->save()){
-            return redirect()->back()->with('msg','Booking Added!');
+            $timestamp =  new BookingTimestamp();
+            $timestamp->booking_id = $booking->id;
+            $timestamp->status = "pending";
+
+            if($timestamp->save()){
+                return redirect()->back()->with('msg','Booking Added!');
+            }
+            else{
+                return redirect()->back()->with('error','Something went wrong in Timestamp creation, try again');
+            }
+
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function assignDriverStore(Request $request, $booking_id)
+    {
+        $booking = Booking::where('id',$booking_id)->first();
+        $booking->driver_id = $request->driver_id;
+
+        if($booking->save()){
+            $this->statusChangeBooking($booking_id,'assigned');
+            return redirect()->back()->with('msg','Driver Assigned!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');
@@ -417,6 +486,48 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $bookings = Booking::where('partner_id',$user->id)->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'for_partner' => true,
+            'bookings' => $bookings
+        ]);
+    }
+    public function assignedBookings()
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"assigned")->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'bookings' => $bookings
+        ]);
+    }
+    public function rejectedBookings()
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"rejected")->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'bookings' => $bookings
+        ]);
+    }
+    public function acceptedBookings()
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"accepted")->with('passengers')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'accepted' => true,
+            'bookings' => $bookings
+        ]);
+    }
+    public function pendingBookings()
+    {
+        $user = Auth::user();
+        $bookings = Booking::where('status',"pending")->with('passengers')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,

@@ -65,6 +65,10 @@
                         <a href="{{route('drivers')}}" class="nav-item nav-link {{ request()->routeIs('drivers') ? 'active' : '' }}"><i class="fa fa-car me-2"></i>Drivers</a>
                         <a href="{{route('partners')}}" class="nav-item nav-link {{ request()->routeIs('partners') ? 'active' : '' }}"><i class="fa fa-handshake me-2"></i></i>Partners</a>
                         <a href="{{route('vehicleTypes')}}" class="nav-item nav-link {{ request()->routeIs('vehicleTypes') ? 'active' : '' }}"><i class="fa fa-car me-2"></i></i>Vehicle Types</a>
+                        <a href="{{route('pendingBookings')}}" class="nav-item nav-link {{ request()->routeIs('pendingBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Pending Bookings</a>
+                        <a href="{{route('acceptedBookings')}}" class="nav-item nav-link {{ request()->routeIs('acceptedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Accepted</a>
+                        <a href="{{route('assignedBookings')}}" class="nav-item nav-link {{ request()->routeIs('assignedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Assigned</a>
+                        <a href="{{route('rejectedBookings')}}" class="nav-item nav-link {{ request()->routeIs('rejectedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Rejected</a>
                     @elseif ($role == 'Partner')
                         <a href="{{route('bookings')}}" class="nav-item nav-link {{ request()->routeIs('bookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Bookings</a>
                     @endif

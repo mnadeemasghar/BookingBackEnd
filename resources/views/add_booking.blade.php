@@ -54,7 +54,7 @@
                             <label for="vehicle_type" class="form-label">Vehicle Type</label>
                             <select name="vehicle_type" class="form-control" id="vehicle_type">
                                 @foreach ($vehicleTypes as $vehicleType)
-                                    <option value="{{ $vehicleType->type }}" {{ $booking->vehicle_type == $vehicleType->type ? "selected":"" }}>{{ $vehicleType->type }}</option>
+                                    <option value="{{ $vehicleType->type }}" {{ isset($booking) && $booking->vehicle_type == $vehicleType->type ? "selected":"" }}>{{ $vehicleType->type }}</option>
                                 @endforeach
                             </select>
                         </div>
