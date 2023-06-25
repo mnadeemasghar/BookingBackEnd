@@ -216,7 +216,23 @@ class HomeController extends Controller
     }
     public function bookings()
     {
-        return view('bookings');
+        $user = Auth::user();
+        $data = User::where('role','Driver')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'data' => $data
+        ]);
+    }
+    public function addBooking()
+    {
+        $user = Auth::user();
+        $data = User::where('role','Driver')->get();
+        return view('add_booking')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'data' => $data
+        ]);
     }
     public function extras()
     {

@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('update-drivers/{id}', [App\Http\Controllers\HomeController::class, 'updateDrivers'])->name('updateDrivers');
     Route::get('vehicles', [App\Http\Controllers\HomeController::class, 'vehicles'])->name('vehicles');
     Route::get('bookings', [App\Http\Controllers\HomeController::class, 'bookings'])->name('bookings');
+    Route::get('add_booking', [App\Http\Controllers\HomeController::class, 'addBooking'])->name('addBooking');
     Route::get('extras', [App\Http\Controllers\HomeController::class, 'extras'])->name('extras');
     Route::get('logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
 });
