@@ -67,6 +67,7 @@ Route::middleware('auth')->group(function () {
     Route::post('update-drivers/{id}', [App\Http\Controllers\HomeController::class, 'updateDrivers'])->name('updateDrivers');
     Route::get('vehicles', [App\Http\Controllers\HomeController::class, 'vehicles'])->name('vehicles');
     Route::get('bookings', [App\Http\Controllers\HomeController::class, 'bookings'])->name('bookings');
+    Route::get('booking-detail/{booking_id}', [App\Http\Controllers\HomeController::class, 'bookingDetail'])->name('bookingDetail');
     Route::get('pending-bookings', [App\Http\Controllers\HomeController::class, 'pendingBookings'])->name('pendingBookings');
     Route::get('accepted-bookings', [App\Http\Controllers\HomeController::class, 'acceptedBookings'])->name('acceptedBookings');
     Route::get('rejected-bookings', [App\Http\Controllers\HomeController::class, 'rejectedBookings'])->name('rejectedBookings');

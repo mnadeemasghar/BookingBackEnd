@@ -23,6 +23,45 @@
 
     <!-- Table Start -->
     <div class="container-fluid pt-4 px-4">
+        <!-- Step Start -->
+
+        <div class="row mb-5">
+            <div class="progress bg-transparent mb-1">
+                <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar" style="width: 3%" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="6">
+                        <a href="{{ route('bookings') }}" class="btn btn-warning">
+                            <i class="fa fa-book"></i>
+                            Booking
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="6">
+                        <a href="{{ isset($booking_id) ? route('passengers',['booking_id' => $booking_id]) : ''}}" class="btn btn-warning">
+                            <i class="fa fa-user"></i>
+                            Passengers
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="6">
+                        <a href="{{ isset($booking_id) ? route('bookingDetail',['booking_id'=> $booking_id]) : '' }}" class="btn btn-warning">
+                            <i class="fa fa-flag"></i>
+                            Finalize
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step End -->
         <div class="row g-4">
             <div class="col-12">
                 <div class="bg-secondary rounded h-100 p-4">

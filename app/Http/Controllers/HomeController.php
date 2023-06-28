@@ -416,7 +416,7 @@ class HomeController extends Controller
         $passenger->flight_arriving_from = $request->flight_arriving_from;
 
         if($passenger->save()){
-            return redirect()->back()->with('msg','Passenger Added!');
+            return redirect()->route('passengers',['booking_id'=> $booking_id])->with('msg','Passenger Added!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');
@@ -440,7 +440,7 @@ class HomeController extends Controller
             $timestamp->status = "pending";
 
             if($timestamp->save()){
-                return redirect()->back()->with('msg','Booking Added!');
+                return redirect()->route('passengers',['booking_id' => $booking->id])->with('msg','Booking Added!');
             }
             else{
                 return redirect()->back()->with('error','Something went wrong in Timestamp creation, try again');
@@ -530,6 +530,18 @@ class HomeController extends Controller
     public function vehicles()
     {
         return view('vehicles');
+    }
+    public function bookingDetail($booking_id)
+    {
+        $user = Auth::user();
+        $booking = Booking::where('id',$booking_id)->with('passengers')->first();
+        return view('booking_detail')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'booking_id' => $booking_id,
+            'booking' => $booking
+        ]);
     }
     public function bookings()
     {

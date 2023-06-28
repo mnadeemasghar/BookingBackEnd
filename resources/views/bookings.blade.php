@@ -59,38 +59,75 @@
                                         <td>{{$booking->passengers->count()}}</td>
                                         <td>{{$booking->status}}</td>
                                         <td>
-                                            @if (isset($editable) && $editable)
-                                                <a href="{{route('passengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
-                                                |
-                                                <a href="{{route('editBooking',['id'=>$booking->id])}}"> <i class="fa fa-edit"></i>Edit</a>
-                                                |
-                                                <a href="{{route('deleteBooking',['id'=>$booking->id])}}"> <i class="fa fa-trash"></i>Delete</a>
-                                            @elseif ($booking->status == 'pending')
-                                                <a href="{{route('passengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
-                                                |
-                                                <a href="{{route('acceptBooking',['id'=>$booking->id])}}"> <i class="fa fa-book"></i>Accept</a>
-                                                |
-                                                <a href="{{route('rejectBooking',['id'=>$booking->id])}}"> <i class="fa fa-book"></i>Reject</a>
-                                            @elseif ($booking->status == 'accepted')
-                                                <a href="{{route('passengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
-                                                |
-                                                <a href="{{route('assignDriver',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Assign</a>
-                                            @elseif ($booking->status == 'assigned')
-                                                <a href="{{route('viewPassengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
-                                                @if (isset($driver) && $driver)
-                                                    |
-                                                    <a href="{{route('arriveBooking',['id'=>$booking->id])}}"> <i class="fa fa-user"></i>Arrived</a>
+                                            @if ($role == "Partner")
+                                                <a href="{{route('passengers',['booking_id' => $booking->id])}}">
+                                                    <i class="fa fa-user"></i>
+                                                    Passengers
+                                                </a>
+                                                <br>
+                                                <a href="{{route('editBooking',['id' => $booking->id])}}">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit
+                                                </a>
+                                                <br>
+                                                <a href="{{route('deleteBooking',['id' => $booking->id])}}">
+                                                    <i class="fa fa-trash"></i>
+                                                    Delete
+                                                </a>
+                                            @elseif ($role == "Admin")
+                                                <a href="{{route('passengers',['booking_id' => $booking->id])}}">
+                                                    <i class="fa fa-user"></i>
+                                                    Passengers
+                                                </a>
+                                                <br>
+                                                <a href="{{route('editBooking',['id' => $booking->id])}}">
+                                                    <i class="fa fa-edit"></i>
+                                                    Edit
+                                                </a>
+                                                <br>
+                                                <a href="{{route('deleteBooking',['id' => $booking->id])}}">
+                                                    <i class="fa fa-trash"></i>
+                                                    Delete
+                                                </a>
+                                                <br>
+                                                @if ($booking->status == "pending")
+                                                    <a href="{{route('acceptBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        Aceept
+                                                    </a>
+                                                    <br>
+                                                    <a href="{{route('rejectBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        Reject
+                                                    </a>
+                                                    @elseif ($booking->status == "accepted")
+                                                        <a href="{{route('assignDriver',['booking_id' => $booking->id])}}">
+                                                            <i class="fa fa-plus"></i>
+                                                            Assign
+                                                        </a>
                                                 @endif
-                                            @elseif ($booking->status == 'arrived')
-                                                <a href="{{route('viewPassengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
-                                                |
-                                                <a href="{{route('onboardBooking',['id'=>$booking->id])}}"> <i class="fa fa-user"></i>Onboard</a>
-                                            @elseif ($booking->status == 'onboard')
-                                                <a href="{{route('viewPassengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
-                                                |
-                                                <a href="{{route('completeBooking',['id'=>$booking->id])}}"> <i class="fa fa-user"></i>Complete</a>
-                                            @elseif ($booking->status == 'completed')
-                                                <a href="{{route('viewPassengers',['booking_id'=>$booking->id])}}"> <i class="fa fa-user"></i>Passengers</a>
+                                            @elseif ($role == "Driver")
+                                                <a href="{{route('viewPassengers',['booking_id' => $booking->id])}}">
+                                                    <i class="fa fa-user"></i>
+                                                    Passengers
+                                                </a>
+                                                <br>
+                                                @if ($booking->status == "assigned")
+                                                    <a href="{{route('arriveBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        Arrived
+                                                    </a>
+                                                @elseif ($booking->status == "arrived")
+                                                    <a href="{{route('onboardBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        Onboard
+                                                    </a>
+                                                @elseif ($booking->status == "onboard")
+                                                    <a href="{{route('completeBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        Complete
+                                                    </a>
+                                                @endif
                                             @endif
                                         </td>
                                     </tr>
