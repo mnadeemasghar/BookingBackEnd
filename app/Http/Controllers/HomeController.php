@@ -551,7 +551,7 @@ class HomeController extends Controller
     public function bookings()
     {
         $user = Auth::user();
-        $bookings = Booking::where('partner_id',$user->id)->with('passengers')->get();
+        $bookings = Booking::where('partner_id',$user->id)->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -563,7 +563,7 @@ class HomeController extends Controller
     public function completedBookings($driver_id)
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"completed")->where('driver_id',$driver_id)->with('passengers')->get();
+        $bookings = Booking::where('status',"completed")->where('driver_id',$driver_id)->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -574,7 +574,7 @@ class HomeController extends Controller
     public function onboardBookings($driver_id)
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"onboard")->where('driver_id',$driver_id)->with('passengers')->get();
+        $bookings = Booking::where('status',"onboard")->where('driver_id',$driver_id)->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -585,7 +585,7 @@ class HomeController extends Controller
     public function assignedDriverBookings($driver_id)
     {
         $user = Auth::user();
-        $bookings = Booking::where('driver_id',$driver_id)->with('passengers')->get();
+        $bookings = Booking::where('driver_id',$driver_id)->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -597,7 +597,7 @@ class HomeController extends Controller
     public function arrivedBookings($driver_id)
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"arrived")->where('driver_id',$driver_id)->with('passengers')->get();
+        $bookings = Booking::where('status',"arrived")->where('driver_id',$driver_id)->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -608,7 +608,7 @@ class HomeController extends Controller
     public function assignedBookings()
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"assigned")->with('passengers')->get();
+        $bookings = Booking::where('status',"assigned")->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -619,7 +619,7 @@ class HomeController extends Controller
     public function rejectedBookings()
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"rejected")->with('passengers')->get();
+        $bookings = Booking::where('status',"rejected")->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -630,7 +630,7 @@ class HomeController extends Controller
     public function acceptedBookings()
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"accepted")->with('passengers')->get();
+        $bookings = Booking::where('status',"accepted")->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -642,8 +642,8 @@ class HomeController extends Controller
     public function pendingBookings()
     {
         $user = Auth::user();
-        // $bookings = Booking::where('status',"pending")->with('passengers')->get();
-        $bookings = Booking::with('passengers')->get();
+        // $bookings = Booking::where('status',"pending")->with('passengers')->with('driver')->get();
+        $bookings = Booking::with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,

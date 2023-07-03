@@ -41,6 +41,7 @@
                                     <th scope="col">Vehicle Type</th>
                                     <th scope="col">Extras</th>
                                     <th scope="col">Driver ID</th>
+                                    <th scope="col">Driver Name</th>
                                     <th scope="col">Passengers</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
@@ -56,6 +57,7 @@
                                         <td>{{$booking->vehicle_type}}</td>
                                         <td>{{$booking->extras}}</td>
                                         <td>{{$booking->driver_id}}</td>
+                                        <td>{{$booking->driver[0]->name ?? ""}}</td>
                                         <td>{{$booking->passengers->count()}}</td>
                                         <td>{{$booking->status}}</td>
                                         <td>

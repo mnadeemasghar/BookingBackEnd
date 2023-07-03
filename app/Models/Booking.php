@@ -23,4 +23,9 @@ class Booking extends Model
     {
         return $this->hasMany(Passenager::class);
     }
+
+    public function driver()
+    {
+        return $this->hasMany(User::class,'id','driver_id');
+    }
 }
