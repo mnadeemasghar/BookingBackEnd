@@ -585,7 +585,7 @@ class HomeController extends Controller
     public function assignedDriverBookings($driver_id)
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"assigned")->where('driver_id',$driver_id)->with('passengers')->get();
+        $bookings = Booking::where('driver_id',$driver_id)->with('passengers')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -642,7 +642,8 @@ class HomeController extends Controller
     public function pendingBookings()
     {
         $user = Auth::user();
-        $bookings = Booking::where('status',"pending")->with('passengers')->get();
+        // $bookings = Booking::where('status',"pending")->with('passengers')->get();
+        $bookings = Booking::with('passengers')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
