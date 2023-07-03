@@ -99,7 +99,25 @@
                         </div>
                         <div class="mb-3">
                             <label for="extras" class="form-label">Extras</label>
-                            <input type="text" name="extras" class="form-control" value="{{ isset($edit) ? $booking->extras:'' }}" placeholder="Wheelchair, Baby seat, child seat with additional cost" id="extras">
+                            <div class="form-check">
+                                <input class="form-check-input" name="extras['wheelchair']" type="checkbox" id="wheelchair">
+                                <label class="form-check-label" for="wheelchair">
+                                    wheelchair
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="extras['babyseat']" type="checkbox" id="babyseat">
+                                <label class="form-check-label" for="babyseat">
+                                    babyseat
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" name="extras['childseat']" type="checkbox" id="childseat">
+                                <label class="form-check-label" for="childseat">
+                                    childseat
+                                </label>
+                            </div>
+                            {{-- <input type="text" name="extras" class="form-control" value="{{ isset($edit) ? $booking->extras:'' }}" placeholder="Wheelchair, Baby seat, child seat with additional cost" id="extras"> --}}
                         </div>
                         <button type="submit" class="btn btn-primary">{{ isset($edit) ? 'Update Booking':'Add Booking' }}</button>
                     </form>

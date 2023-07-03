@@ -424,12 +424,17 @@ class HomeController extends Controller
     }
     public function storeBooking(Request $request)
     {
+        if(isset($request->extras)){
+            $keys = array_keys($request->extras);
+            $implodedKeys = implode(', ', $keys);
+        }
+
         $booking = new Booking();
         $booking->destination = $request->destination;
         $booking->location = $request->location;
         $booking->pick_date_time = $request->pick_date_time;
         $booking->vehicle_type = $request->vehicle_type;
-        $booking->extras = $request->extras;
+        $booking->extras = $implodedKeys ?? "";
         $booking->partner_id = Auth::user()->id;
         $booking->status = "pending";
 

@@ -65,8 +65,12 @@
                     <!-- Step End -->
                     <div class="bg-secondary rounded h-100 p-4">
                         <h6 class="mb-4">Passengers Data</h6>
-                        @if ($role == 'Admin' || $role == 'Partner')
-                            <a href="{{route('addPassenger',['booking_id' => $booking_id])}}" class="btn btn-primary">Add Passenger</a>
+                        @if ($passengers->count() > 0)
+
+                        @else
+                            @if ($role == 'Admin' || $role == 'Partner')
+                                <a href="{{route('addPassenger',['booking_id' => $booking_id])}}" class="btn btn-primary">Add Passenger</a>
+                            @endif
                         @endif
                         <div class="table-responsive">
                             <table class="table  table-hover">
