@@ -126,16 +126,27 @@ class HomeController extends Controller
         }
     }
     public function rejectBooking($id){
-        if($this->statusChangeBooking($id,'rejected')){
+        $user = Auth::user();
+        return view('reject')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $id
+        ]);
+    }
+    public function rejectBookingPost(Request $request, $id){
+        if($this->statusChangeBooking($id,'rejected', $request->reason)){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
-    public function statusChangeBooking($id,$status){
+    public function statusChangeBooking($id,$status, $reason = null){
         $booking = Booking::where('id',$id)->first();
         $booking->status = $status;
+        if($reason){
+            $booking->reason = $reason;
+        }
 
         $timestamp = new BookingTimestamp();
         $timestamp->booking_id = $id;

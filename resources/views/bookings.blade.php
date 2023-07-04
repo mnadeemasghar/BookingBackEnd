@@ -45,6 +45,7 @@
                                     <th scope="col">Passengers</th>
                                     @if ($role == 'Admin' || $role == 'Partner')
                                     <th scope="col">Price</th>
+                                    <th scope="col">Rejection</th>
                                     @endif
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
@@ -64,6 +65,7 @@
                                         <td>{{$booking->passengers->count()}}</td>
                                         @if ($role == 'Admin' || $role == 'Partner')
                                         <td>{{$booking->price ?? ""}}</td>
+                                        <td>{{$booking->reason ?? ""}}</td>
                                         @endif
                                         <td>{{$booking->status}}</td>
                                         <td>
