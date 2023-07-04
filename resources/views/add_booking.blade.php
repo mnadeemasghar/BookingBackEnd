@@ -98,6 +98,10 @@
                             </select>
                         </div>
                         <div class="mb-3">
+                            <label for="price" class="form-label">Price</label>
+                            <input type="text" name="price" value="{{ isset($edit) ? $booking->price:'' }}" class="form-control" id="price">
+                        </div>
+                        <div class="mb-3">
                             <label for="extras" class="form-label">Extras</label>
                             <div class="form-check">
                                 <input class="form-check-input" name="extras['wheelchair']" type="checkbox" id="wheelchair">

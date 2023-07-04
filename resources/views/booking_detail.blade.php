@@ -86,6 +86,10 @@
                         <label for="extras" class="form-label">Extras</label>
                         <input type="text" name="extras" class="form-control" id="extras" value="{{ $booking->extras }}" disabled>
                     </div>
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price</label>
+                        <input type="text" name="price" class="form-control" id="price" value="{{ $booking->price }}" disabled>
+                    </div>
                     <h6>Passenger Details</h6>
                     @foreach ($booking->passengers as $passenger)
                     <hr>

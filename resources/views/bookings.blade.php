@@ -43,6 +43,9 @@
                                     <th scope="col">Driver ID</th>
                                     <th scope="col">Driver Name</th>
                                     <th scope="col">Passengers</th>
+                                    @if ($role == 'Admin' || $role == 'Partner')
+                                    <th scope="col">Price</th>
+                                    @endif
                                     <th scope="col">Status</th>
                                     <th scope="col">Action</th>
                                 </tr>
@@ -59,6 +62,9 @@
                                         <td>{{$booking->driver_id}}</td>
                                         <td>{{$booking->driver[0]->name ?? ""}}</td>
                                         <td>{{$booking->passengers->count()}}</td>
+                                        @if ($role == 'Admin' || $role == 'Partner')
+                                        <td>{{$booking->price ?? ""}}</td>
+                                        @endif
                                         <td>{{$booking->status}}</td>
                                         <td>
                                             @if ($role == "Partner")

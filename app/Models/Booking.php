@@ -16,7 +16,8 @@ class Booking extends Model
         'pick_date_time',
         'vehicle_type',
         'extras',
-        'partner_id'
+        'partner_id',
+        'price'
     ];
 
     public function passengers()

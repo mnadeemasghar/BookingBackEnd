@@ -434,6 +434,7 @@ class HomeController extends Controller
         $booking->location = $request->location;
         $booking->pick_date_time = $request->pick_date_time;
         $booking->vehicle_type = $request->vehicle_type;
+        $booking->price = $request->price;
         $booking->extras = $implodedKeys ?? "";
         $booking->partner_id = Auth::user()->id;
         $booking->status = "pending";
