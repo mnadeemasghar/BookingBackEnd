@@ -70,6 +70,11 @@
                                         <td>{{$booking->status}}</td>
                                         <td>
                                             @if ($role == "Partner")
+                                                <a href="{{route('viewLogs',['booking_id' => $booking->id])}}">
+                                                    <i class="fa fa-user"></i>
+                                                    Logs
+                                                </a>
+                                                <br>
                                                 <a href="{{route('passengers',['booking_id' => $booking->id])}}">
                                                     <i class="fa fa-user"></i>
                                                     Passengers
@@ -85,6 +90,11 @@
                                                     Delete
                                                 </a>
                                             @elseif ($role == "Admin")
+                                                <a href="{{route('viewLogs',['booking_id' => $booking->id])}}">
+                                                    <i class="fa fa-user"></i>
+                                                    Logs
+                                                </a>
+                                                <br>
                                                 <a href="{{route('passengers',['booking_id' => $booking->id])}}">
                                                     <i class="fa fa-user"></i>
                                                     Passengers

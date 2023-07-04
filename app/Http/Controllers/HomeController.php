@@ -508,6 +508,19 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+    public function viewLogs($booking_id)
+    {
+        $user = Auth::user();
+        $booking_timestamps = BookingTimestamp::where('booking_id',$booking_id)->get();
+        return view('booking_timestamps')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'view' => true,
+            'booking_timestamps' => $booking_timestamps,
+            'booking_id' => $booking_id
+        ]);
+    }
     public function viewPassengers($booking_id)
     {
         $user = Auth::user();
