@@ -10,6 +10,7 @@ use App\Models\VehicleType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Twilio\Rest\Client;
 
 class HomeController extends Controller
 {
@@ -142,7 +143,7 @@ class HomeController extends Controller
         }
     }
     public function statusChangeBooking($id,$status, $reason = null){
-        $booking = Booking::where('id',$id)->first();
+        $booking = Booking::where('id',$id)->with('passengers')->first();
         $booking->status = $status;
         if($reason){
             $booking->reason = $reason;
@@ -153,12 +154,35 @@ class HomeController extends Controller
         $timestamp->status = $status;
 
         if($booking->save() && $timestamp->save() ){
+            $to = $booking->passengers[0]->phone_number;
+            $message = $this->sendsms(
+                $to,
+                "Ride: ".$id." status change: ".$status
+            );
+            // dd($message);
             return true;
         }
         else{
             return false;
         }
     }
+
+    public function sendsms($to,$message){
+        $sid = "ACb613c5c0a741a88e14a381bf47710015"; // Your Account SID from www.twilio.com/console
+        $token = "dd6936fb3dae7919edc93d9e3c0877ba"; // Your Auth Token from www.twilio.com/console
+
+        $client = new Client($sid, $token);
+        $message = $client->messages->create(
+            $to, // Text this number
+            [
+                'from' => '+16183615815', // From a valid Twilio number
+                'body' => $message
+            ]
+        );
+
+        return $message;
+    }
+
     public function deleteBooking($id){
         $user = Booking::where('id',$id)->first();
         if($user->delete()){

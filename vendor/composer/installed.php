@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => 'v10.2.3',
-        'version' => '10.2.3.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '26636946fd201d8a714858e4be61e4855e4612fc',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -371,9 +371,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => 'v10.2.3',
-            'version' => '10.2.3.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '26636946fd201d8a714858e4be61e4855e4612fc',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -724,8 +724,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1244,6 +1244,15 @@
             'reference' => 'c42125b83a4fa63b187fdf29f9c93cb7733da30c',
             'type' => 'library',
             'install_path' => __DIR__ . '/../tijsverkoyen/css-to-inline-styles',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'twilio/sdk' => array(
+            'pretty_version' => '7.5.0',
+            'version' => '7.5.0.0',
+            'reference' => 'c5c25509391a7369d8fc89e27cb177967c9dff83',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../twilio/sdk',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
