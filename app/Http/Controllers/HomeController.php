@@ -353,6 +353,10 @@ class HomeController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role = "Driver";
+        $user->phone_no = $request->phone_no;
+        $user->taxi_driver_no = $request->taxi_driver_no;
+        $user->license_no = $request->license_no;
+        $user->license_expiry = $request->license_expiry;
 
         if($user->save()){
             return redirect()->back()->with('msg','Driver Added!');
@@ -368,6 +372,10 @@ class HomeController extends Controller
         $user->email = $request->email;
         $user->password = Hash::make($request->password);
         $user->role = "Driver";
+        $user->phone_no = $request->phone_no;
+        $user->taxi_driver_no = $request->taxi_driver_no;
+        $user->license_no = $request->license_no;
+        $user->license_expiry = $request->license_expiry;
 
         if($user->save()){
             return redirect()->back()->with('msg','Driver Updated!');

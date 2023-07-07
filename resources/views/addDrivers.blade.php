@@ -49,6 +49,22 @@
                             </div>
                         </div>
                         <div class="mb-3">
+                            <label for="phone_no" class="form-label">phone_no</label>
+                            <input type="text" name="phone_no" class="form-control" id="phone_no" value="{{isset($edit) ? $driver->phone_no:''}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="taxi_driver_no" class="form-label">taxi_driver_no</label>
+                            <input type="text" name="taxi_driver_no" class="form-control" id="taxi_driver_no" value="{{isset($edit) ? $driver->taxi_driver_no:''}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="license_no" class="form-label">license_no</label>
+                            <input type="text" name="license_no" class="form-control" id="license_no" value="{{isset($edit) ? $driver->license_no:''}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="license_expiry" class="form-label">license_expiry</label>
+                            <input type="datetime-local" name="license_expiry" class="form-control" id="license_expiry" value="{{isset($edit) ? $driver->license_expiry:''}}">
+                        </div>
+                        <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Password</label>
                             <input type="password" name="password" class="form-control" id="exampleInputPassword1" value="{{isset($edit) ? $driver->password:''}}">
                         </div>
