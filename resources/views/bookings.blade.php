@@ -142,6 +142,10 @@
                                                         <i class="fa fa-book"></i>
                                                         Onboard
                                                     </a>
+                                                    <a href="{{route('nowshowBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        Customer not Shown
+                                                    </a>
                                                 @elseif ($booking->status == "onboard")
                                                     <a href="{{route('completeBooking',['id' => $booking->id])}}">
                                                         <i class="fa fa-book"></i>

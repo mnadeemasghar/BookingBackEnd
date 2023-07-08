@@ -40,6 +40,8 @@ Route::middleware('auth')->group(function () {
     Route::get('complete-booking/{id}', [App\Http\Controllers\HomeController::class, 'completeBooking'])->name('completeBooking');
     Route::get('reject-booking/{id}', [App\Http\Controllers\HomeController::class, 'rejectBooking'])->name('rejectBooking');
     Route::post('reject-booking/{id}', [App\Http\Controllers\HomeController::class, 'rejectBookingPost'])->name('rejectBookingPost');
+    Route::get('nowshow-booking/{id}', [App\Http\Controllers\HomeController::class, 'nowshowBooking'])->name('nowshowBooking');
+    Route::post('nowshow-booking/{id}', [App\Http\Controllers\HomeController::class, 'nowshowBookingPost'])->name('nowshowBookingPost');
     Route::get('partners', [App\Http\Controllers\HomeController::class, 'partners'])->name('partners');
     Route::get('vehicleTypes', [App\Http\Controllers\HomeController::class, 'vehicleTypes'])->name('vehicleTypes');
     Route::get('add-vehicle', [App\Http\Controllers\HomeController::class, 'addVehicle'])->name('addVehicle');

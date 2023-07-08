@@ -7,6 +7,7 @@ use App\Models\BookingTimestamp;
 use App\Models\Passenager;
 use App\Models\User;
 use App\Models\VehicleType;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -134,8 +135,24 @@ class HomeController extends Controller
             'id' => $id
         ]);
     }
+    public function nowshowBooking($id){
+        $user = Auth::user();
+        return view('noshow')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $id
+        ]);
+    }
     public function rejectBookingPost(Request $request, $id){
         if($this->statusChangeBooking($id,'rejected', $request->reason)){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function nowshowBookingPost(Request $request, $id){
+        if($this->statusChangeBooking($id,'not_shown', $request->reason)){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -172,13 +189,21 @@ class HomeController extends Controller
         $token = "dd6936fb3dae7919edc93d9e3c0877ba"; // Your Auth Token from www.twilio.com/console
 
         $client = new Client($sid, $token);
-        $message = $client->messages->create(
-            $to, // Text this number
-            [
-                'from' => '+16183615815', // From a valid Twilio number
-                'body' => $message
-            ]
-        );
+        $message = "";
+
+        try{
+            $message = $client->messages->create(
+                $to, // Text this number
+                [
+                    'from' => '+16183615815', // From a valid Twilio number
+                    'body' => $message
+                ]
+            );
+        }
+        catch(Exception $e)
+        {
+            $message = "error";
+        }
 
         return $message;
     }
