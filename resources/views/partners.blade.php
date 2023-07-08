@@ -35,6 +35,8 @@
                                                 <a href="{{route('editPartners',['id'=>$partner->id])}}"><i class="fa fa-edit"></i>Edit</a>
                                                 |
                                                 <a href="{{route('deleteUsers',['id'=>$partner->id])}}"><i class="fa fa-trash"></i>Delete</a>
+                                                |
+                                                <a href="{{route('viewUserLogs',['user_id'=>$partner->id])}}"> <i class="fa fa-file"></i>View Logs</a>
                                             </td>
                                         </tr>
                                     @endforeach

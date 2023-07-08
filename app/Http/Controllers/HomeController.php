@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Booking;
 use App\Models\BookingTimestamp;
 use App\Models\Passenager;
 use App\Models\User;
+use App\Models\UserLog;
 use App\Models\VehicleType;
 use Exception;
 use Illuminate\Http\Request;
@@ -183,6 +185,8 @@ class HomeController extends Controller
         $timestamp = new BookingTimestamp();
         $timestamp->booking_id = $id;
         $timestamp->status = $status;
+
+        Helper::userLogEntry('booking:'.$id.", status changed:".$status);
 
         if($booking->save() && $timestamp->save() ){
             $to = $booking->passengers[0]->phone_number;
@@ -627,6 +631,20 @@ class HomeController extends Controller
             'booking_id' => $booking_id
         ]);
     }
+    public function viewUserLogs($user_id)
+    {
+        $user = Auth::user();
+        $userlogs = UserLog::where('user_id',$user_id)->orderBy('id', 'desc')->get();
+        $logged_user = User::find($user_id);
+        return view('logs')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'view' => true,
+            'userlogs' => $userlogs,
+            'logged_user' => $logged_user
+        ]);
+    }
     public function passengers($booking_id)
     {
         $user = Auth::user();
@@ -794,6 +812,7 @@ class HomeController extends Controller
     public function signin_check(Request $request)
     {
         if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
+            Helper::userLogEntry('login');
             return redirect()->route('home');
         }
         else{
@@ -808,6 +827,7 @@ class HomeController extends Controller
 
     public function logout()
     {
+        Helper::userLogEntry('logout');
         Auth::logout();
         return redirect()->route('login');
     }

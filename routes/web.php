@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
     Route::get('drivers', [App\Http\Controllers\HomeController::class, 'drivers'])->name('drivers');
     Route::get('passengers/{booking_id}', [App\Http\Controllers\HomeController::class, 'passengers'])->name('passengers');
     Route::get('view-passengers/{booking_id}', [App\Http\Controllers\HomeController::class, 'viewPassengers'])->name('viewPassengers');
+    Route::get('view-user-logs/{user_id}', [App\Http\Controllers\HomeController::class, 'viewUserLogs'])->name('viewUserLogs');
     Route::get('view-logs/{booking_id}', [App\Http\Controllers\HomeController::class, 'viewLogs'])->name('viewLogs');
     Route::get('add-drivers', [App\Http\Controllers\HomeController::class, 'addDrivers'])->name('addDrivers');
     Route::get('add-passenger/{booking_id}', [App\Http\Controllers\HomeController::class, 'addPassenger'])->name('addPassenger');
