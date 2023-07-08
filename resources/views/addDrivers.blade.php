@@ -36,7 +36,7 @@
                         </div>
                     @endif
                     <h6 class="mb-4">{{ isset($edit) ? "Update Driver":"Add Driver"}}</h6>
-                    <form action="{{ isset($edit) ? route('updateDrivers',['id'=>$driver->id]) : route('storeDrivers')}}" method="POST">
+                    <form action="{{ isset($edit) ? route('updateDrivers',['id'=>$driver->id]) : route('storeDrivers')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
@@ -49,20 +49,24 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="phone_no" class="form-label">phone_no</label>
+                            <label for="phone_no" class="form-label">Phone No</label>
                             <input type="text" name="phone_no" class="form-control" id="phone_no" value="{{isset($edit) ? $driver->phone_no:''}}">
                         </div>
                         <div class="mb-3">
-                            <label for="taxi_driver_no" class="form-label">taxi_driver_no</label>
+                            <label for="taxi_driver_no" class="form-label">Taxi Driver No</label>
                             <input type="text" name="taxi_driver_no" class="form-control" id="taxi_driver_no" value="{{isset($edit) ? $driver->taxi_driver_no:''}}">
                         </div>
                         <div class="mb-3">
-                            <label for="license_no" class="form-label">license_no</label>
+                            <label for="license_no" class="form-label">License No</label>
                             <input type="text" name="license_no" class="form-control" id="license_no" value="{{isset($edit) ? $driver->license_no:''}}">
                         </div>
                         <div class="mb-3">
-                            <label for="license_expiry" class="form-label">license_expiry</label>
+                            <label for="license_expiry" class="form-label">License Expiry</label>
                             <input type="datetime-local" name="license_expiry" class="form-control" id="license_expiry" value="{{isset($edit) ? $driver->license_expiry:''}}">
+                        </div>
+                        <div class="mb-3">
+                            <label for="license_img" class="form-label">License Image</label>
+                            <input type="file" name="license_img" class="form-control" id="license_img" >
                         </div>
                         <div class="mb-3">
                             <label for="exampleInputPassword1" class="form-label">Password</label>
@@ -74,7 +78,7 @@
             </div>
             <div class="col-sm-12 col-xl-6">
                 <div class="bg-secondary rounded h-100 p-4 d-flex h-100 align-items-center">
-                    <img class="img-fluid" src="{{asset('partner.png')}}" alt="">
+                    <img class="img-fluid" src="{{ isset($edit) ? asset('license_imgs/'.$driver->license_img): asset('partner.png') }}" alt="">
                 </div>
             </div>
         </div>

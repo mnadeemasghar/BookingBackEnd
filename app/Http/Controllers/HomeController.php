@@ -397,6 +397,17 @@ class HomeController extends Controller
         $user->license_no = $request->license_no;
         $user->license_expiry = $request->license_expiry;
 
+        // upload license pics
+        if ($request->hasFile('license_img')) {
+            $license_img = $request->file('license_img');
+            $path = 'license_imgs/';
+            $license_img_name = uniqid() . '.' . $license_img->getClientOriginalExtension();
+            $license_img->move($path, $license_img_name);
+
+            $user->license_img = $license_img_name;
+        }
+
+
         if($user->save()){
             return redirect()->back()->with('msg','Driver Added!');
         }
@@ -415,6 +426,16 @@ class HomeController extends Controller
         $user->taxi_driver_no = $request->taxi_driver_no;
         $user->license_no = $request->license_no;
         $user->license_expiry = $request->license_expiry;
+
+        // upload license pics
+        if ($request->hasFile('license_img')) {
+            $license_img = $request->file('license_img');
+            $path = 'license_imgs/';
+            $license_img_name = uniqid() . '.' . $license_img->getClientOriginalExtension();
+            $license_img->move($path, $license_img_name);
+
+            $user->license_img = $license_img_name;
+        }
 
         if($user->save()){
             return redirect()->back()->with('msg','Driver Updated!');

@@ -26,7 +26,8 @@ class User extends Authenticatable
         'taxi_driver_no',
         'license_no',
         'license_expiry',
-        'working_hours'
+        'working_hours',
+        'license_img'
     ];
 
     /**
