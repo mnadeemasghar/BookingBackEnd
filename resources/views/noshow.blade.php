@@ -34,8 +34,12 @@
                 </div>
             @endif
             <h6 class="mb-4">Customer not Shown</h6>
-            <form action="{{ route('nowshowBookingPost',['id' => $id])}} " method="POST">
+            <form action="{{ route('noshowBookingPost',['id' => $id])}} " method="POST" enctype="multipart/form-data">
                 @csrf
+                <div class="mb-3">
+                    <label for="not_shown_img" class="form-label">Select Image</label>
+                    <input type="file" name="not_shown_img" class="form-control" id="not_shown_img">
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

@@ -135,7 +135,7 @@ class HomeController extends Controller
             'id' => $id
         ]);
     }
-    public function nowshowBooking($id){
+    public function noshowBooking($id){
         $user = Auth::user();
         return view('noshow')->with([
             'role' => $user->role,
@@ -151,7 +151,21 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
-    public function nowshowBookingPost(Request $request, $id){
+    public function noshowBookingPost(Request $request, $id){
+
+        // upload no show pics
+        if ($request->hasFile('not_shown_img')) {
+            $not_shown_img = $request->file('not_shown_img');
+            $path = 'not_shown_imgs/';
+            $not_shown_img_name = uniqid() . '.' . $not_shown_img->getClientOriginalExtension();
+            $not_shown_img->move($path, $not_shown_img_name);
+            $data['not_shown_img'] = $not_shown_img_name;
+
+            $booking = Booking::where('id',$id)->first();
+            $booking->update($data);
+        }
+
+
         if($this->statusChangeBooking($id,'not_shown', $request->reason)){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }

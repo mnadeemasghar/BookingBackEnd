@@ -142,7 +142,7 @@
                                                         <i class="fa fa-book"></i>
                                                         Onboard
                                                     </a>
-                                                    <a href="{{route('nowshowBooking',['id' => $booking->id])}}">
+                                                    <a href="{{route('noshowBooking',['id' => $booking->id])}}">
                                                         <i class="fa fa-book"></i>
                                                         Customer not Shown
                                                     </a>
