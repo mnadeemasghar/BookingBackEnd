@@ -58,8 +58,6 @@
                                                 <a href="{{route('editDrivers',['id'=>$driver->id])}}"> <i class="fa fa-edit"></i>Edit</a>
                                                 |
                                                 <a href="{{route('deleteUsers',['id'=>$driver->id])}}"> <i class="fa fa-trash"></i>Delete</a>
-                                                |
-                                                <a href="{{route('logoutUser',['id'=>$driver->id])}}"> <i class="fa fa-user"></i>Logout</a>
 
                                             </td>
                                         </tr>
