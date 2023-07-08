@@ -564,6 +564,7 @@ class HomeController extends Controller
     {
         $booking = Booking::where('id',$booking_id)->first();
         $booking->driver_id = $request->driver_id;
+        $booking->price_driver = $request->price_driver;
 
         if($booking->save()){
             $this->statusChangeBooking($booking_id,'assigned');

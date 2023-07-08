@@ -30,6 +30,10 @@
                         @endforeach
                     </select>
                 </div>
+                <div class="mb-3">
+                    <label for="price_driver" class="form-label">Driver Price</label>
+                    <input type="text" name="price_driver" class="form-control" id="price_driver">
+                </div>
                 <button type="submit" class="btn btn-primary">Assign Driver</button>
             </form>
         </div>

@@ -19,7 +19,8 @@ class Booking extends Model
         'partner_id',
         'price',
         'reason',
-        'not_shown_img'
+        'not_shown_img',
+        'price_driver'
     ];
 
     public function passengers()
