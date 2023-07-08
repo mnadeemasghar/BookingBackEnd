@@ -64,11 +64,11 @@
                     <form action="{{ isset($edit) ? route('updateBooking',['id'=> $booking->id]) : route('storeBooking') }}" method="POST">
                         @csrf
                         <div class="mb-3">
-                            <label for="destination" class="form-label">Destination</label>
+                            <label for="destination" class="form-label">Drop Off</label>
                             <input type="text" name="destination" class="form-control" value="{{ isset($edit) ? $booking->destination:'' }}" placeholder="City Center, train station. Etc. hotel or property" id="destination">
                         </div>
                         <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
+                            <label for="location" class="form-label">Pick Up</label>
                             <input type="text" name="location" class="form-control" value="{{ isset($edit) ? $booking->location:'' }}" id="location">
                         </div>
                         <div class="mb-3">

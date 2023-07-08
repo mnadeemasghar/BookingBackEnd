@@ -21,8 +21,8 @@
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Destination</th>
-                                    <th scope="col">Location</th>
+                                    <th scope="col">Drop Off</th>
+                                    <th scope="col">Pick Up</th>
                                     <th scope="col">Pick Date</th>
                                     <th scope="col">Vehicle Type</th>
                                     <th scope="col">Extras</th>
