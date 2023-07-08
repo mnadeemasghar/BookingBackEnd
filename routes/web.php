@@ -83,6 +83,7 @@ Route::middleware('auth')->group(function () {
     Route::get('add_booking', [App\Http\Controllers\HomeController::class, 'addBooking'])->name('addBooking');
     Route::get('extras', [App\Http\Controllers\HomeController::class, 'extras'])->name('extras');
     Route::get('logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
+    Route::get('logout-user/{id}', [App\Http\Controllers\HomeController::class, 'logoutUser'])->name('logoutUser');
 });
 
 

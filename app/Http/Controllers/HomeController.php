@@ -810,4 +810,10 @@ class HomeController extends Controller
         Auth::logout();
         return redirect()->route('login');
     }
+    public function logoutUser($id)
+    {
+        Auth::loginUsingId($id);
+
+        return redirect()->back()->with('msg','User logged out');
+    }
 }
