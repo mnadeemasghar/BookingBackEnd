@@ -98,7 +98,7 @@ class HomeController extends Controller
         }
     }
     public function completeBooking($id){
-        if($this->statusChangeBooking($id,'completed')){
+        if($this->statusChangeBooking($id,'completed')->status == true){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -195,32 +195,33 @@ class HomeController extends Controller
                 "Ride: ".$id." status change: ".$status
             );
             // dd($message);
-            return true;
+            return response()->json(["status" => true, "message" => $message]);
         }
         else{
-            return false;
+            return response()->json(["status" => false, "message" => $message]);
         }
     }
 
-    public function sendsms($to,$message){
+    public function sendsms($to,$message_body){
         $sid = "ACb613c5c0a741a88e14a381bf47710015"; // Your Account SID from www.twilio.com/console
-        $token = "dd6936fb3dae7919edc93d9e3c0877ba"; // Your Auth Token from www.twilio.com/console
+        // $token = "dd6936fb3dae7919edc93d9e3c0877ba"; // Your Auth Token from www.twilio.com/console
+        $token = "2d1a53985dd11dc9db82450aa1c2484f"; // Your Auth Token from www.twilio.com/console
 
         $client = new Client($sid, $token);
-        $message = "";
+        $message = "Message Sent";
 
         try{
             $message = $client->messages->create(
                 $to, // Text this number
                 [
                     'from' => '+16183615815', // From a valid Twilio number
-                    'body' => $message
+                    'body' => $message_body
                 ]
             );
         }
         catch(Exception $e)
         {
-            $message = "error";
+            $message = $e->getMessage();
         }
 
         return $message;
