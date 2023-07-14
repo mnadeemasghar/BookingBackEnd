@@ -198,14 +198,13 @@ class HomeController extends Controller
             return response()->json(["status" => true, "message" => $message]);
         }
         else{
-            return response()->json(["status" => false, "message" => $message]);
+            return response()->json(["status" => false, "message" => "message not available"]);
         }
     }
 
     public function sendsms($to,$message_body){
-        $sid = "ACb613c5c0a741a88e14a381bf47710015"; // Your Account SID from www.twilio.com/console
-        // $token = "dd6936fb3dae7919edc93d9e3c0877ba"; // Your Auth Token from www.twilio.com/console
-        $token = "2d1a53985dd11dc9db82450aa1c2484f"; // Your Auth Token from www.twilio.com/console
+        $sid = env("TWILIO_SID"); // Your Account SID from www.twilio.com/console
+        $token = env("TWILIO_TOKEN"); // Your Auth Token from www.twilio.com/console
 
         $client = new Client($sid, $token);
         $message = "Message Sent";
