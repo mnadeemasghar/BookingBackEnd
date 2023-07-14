@@ -98,7 +98,7 @@ class HomeController extends Controller
         }
     }
     public function completeBooking($id){
-        if($this->statusChangeBooking($id,'completed')->status == true){
+        if($this->statusChangeBooking($id,'completed')['status'] == true){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
