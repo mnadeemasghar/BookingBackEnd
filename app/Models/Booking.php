@@ -20,7 +20,9 @@ class Booking extends Model
         'price',
         'reason',
         'not_shown_img',
-        'price_driver'
+        'price_driver',
+        'passenger_nos',
+        'currency'
     ];
 
     public function passengers()

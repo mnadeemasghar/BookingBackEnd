@@ -72,12 +72,16 @@
                             <input type="text" name="location" class="form-control" value="{{ isset($edit) ? $booking->location:'' }}" id="location">
                         </div>
                         <div class="mb-3">
+                            <label for="passenger_nos" class="form-label">passenger_nos</label>
+                            <input type="number" name="passenger_nos" class="form-control" value="{{ isset($edit) ? $booking->passenger_nos:'' }}" id="passenger_nos">
+                        </div>
+                        <div class="mb-3">
                             <label for="pick_date_time" class="form-label">Pick Date Time</label>
                             <input type="datetime-local" name="pick_date_time" value="{{ isset($edit) ? $booking->pick_date_time:'' }}" class="form-control" id="pick_date_time">
                         </div>
                         <div class="mb-3">
                             <label for="vehicle_type" class="form-label">Vehicle Type</label>
-                            <select name="vehicle_type" class="form-control" id="vehicle_type">
+                            <select name="vehicle_type" class="form-select" id="vehicle_type">
                                 @foreach ($vehicleTypes as $vehicleType)
                                     <option value="{{ $vehicleType->type }}" {{ isset($booking) && $booking->vehicle_type == $vehicleType->type ? "selected":"" }}>{{ $vehicleType->type }}</option>
                                 @endforeach
@@ -85,7 +89,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Price</label>
-                            <input type="text" name="price" value="{{ isset($edit) ? $booking->price:'' }}" class="form-control" id="price">
+                            <div class="input-group mb-3">
+                                <select name="currency" class="btn btn-warning">
+                                    <option>Select one</option>
+                                    <option value="EUR">EUR</option>
+                                    <option value="DKK">DKK</option>
+                                </select>
+                                <input type="text" name="price" value="{{ isset($edit) ? $booking->price:'' }}" class="form-control" id="price">
+                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="extras" class="form-label">Extras</label>

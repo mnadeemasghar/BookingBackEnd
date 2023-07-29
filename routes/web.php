@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     Route::get('booking/status-change/{id}/{status}', [App\Http\Controllers\HomeController::class, 'statusChangeBooking'])->name('statusChangeBooking');
     Route::get('accept-booking/{id}', [App\Http\Controllers\HomeController::class, 'acceptBooking'])->name('acceptBooking');
     Route::get('arrive-booking/{id}', [App\Http\Controllers\HomeController::class, 'arriveBooking'])->name('arriveBooking');
+    Route::get('onTheWay-booking/{id}', [App\Http\Controllers\HomeController::class, 'onTheWayBooking'])->name('onTheWayBooking');
     Route::get('onboard-booking/{id}', [App\Http\Controllers\HomeController::class, 'onboardBooking'])->name('onboardBooking');
     Route::get('complete-booking/{id}', [App\Http\Controllers\HomeController::class, 'completeBooking'])->name('completeBooking');
     Route::get('reject-booking/{id}', [App\Http\Controllers\HomeController::class, 'rejectBooking'])->name('rejectBooking');

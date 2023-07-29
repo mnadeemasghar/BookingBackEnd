@@ -48,9 +48,9 @@
                                         <td>{{$booking->extras}}</td>
                                         <td>{{$booking->driver_id}}</td>
                                         <td>{{$booking->driver[0]->name ?? ""}}</td>
-                                        <td>{{$booking->passengers->count()}}</td>
+                                        <td>{{$booking->passenger_nos}}</td>
                                         @if ($role == 'Admin' || $role == 'Partner')
-                                        <td>{{$booking->price ?? ""}}</td>
+                                        <td>{{ $booking->currency ?? "" }} {{ $booking->price ?? ""}}</td>
                                         <td>{{$booking->reason ?? ""}}</td>
                                         @endif
                                         <td>{{$booking->status}}</td>
@@ -97,12 +97,12 @@
                                                 </a>
                                                 <br>
                                                 @if ($booking->status == "pending")
-                                                    <a href="{{route('acceptBooking',['id' => $booking->id])}}">
+                                                    <a  class="text-success" href="{{route('acceptBooking',['id' => $booking->id])}}">
                                                         <i class="fa fa-book"></i>
                                                         Aceept
                                                     </a>
                                                     <br>
-                                                    <a href="{{route('rejectBooking',['id' => $booking->id])}}">
+                                                    <a class="text-danger" href="{{route('rejectBooking',['id' => $booking->id])}}">
                                                         <i class="fa fa-book"></i>
                                                         Reject
                                                     </a>
@@ -111,6 +111,11 @@
                                                             <i class="fa fa-plus"></i>
                                                             Assign
                                                         </a>
+                                                @elseif ($booking->status == "assigned")
+                                                    <a href="{{route('assignDriver',['booking_id' => $booking->id])}}">
+                                                        <i class="fa fa-plus"></i>
+                                                        Assign
+                                                    </a>
                                                 @endif
                                             @elseif ($role == "Driver")
                                                 <a href="{{route('viewPassengers',['booking_id' => $booking->id])}}">
@@ -119,16 +124,21 @@
                                                 </a>
                                                 <br>
                                                 @if ($booking->status == "assigned")
+                                                    <a href="{{route('onTheWayBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        On the Way
+                                                    </a>
+                                                @elseif ($booking->status == "ontheway")
                                                     <a href="{{route('arriveBooking',['id' => $booking->id])}}">
                                                         <i class="fa fa-book"></i>
                                                         Arrived
                                                     </a>
                                                 @elseif ($booking->status == "arrived")
-                                                    <a href="{{route('onboardBooking',['id' => $booking->id])}}">
+                                                    <a class="text-success" href="{{route('onboardBooking',['id' => $booking->id])}}">
                                                         <i class="fa fa-book"></i>
                                                         Onboard
                                                     </a>
-                                                    <a href="{{route('noshowBooking',['id' => $booking->id])}}">
+                                                    <a class="text-danger" href="{{route('noshowBooking',['id' => $booking->id])}}">
                                                         <i class="fa fa-book"></i>
                                                         Customer not Shown
                                                     </a>

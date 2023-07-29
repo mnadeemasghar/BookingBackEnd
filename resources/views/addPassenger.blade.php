@@ -61,7 +61,7 @@
             <h6 class="mb-4">{{ isset($edit) ? "Update Passenger":"Add Passenger"}}</h6>
             <form action="{{ isset($edit) ? route('updatePassenger',['id'=>$passenger->id]) : route('storePassenger',['booking_id'=>$booking_id])}}" method="POST">
                 @csrf
-                <div class="mb-3">
+                <div class="mb-3 d-none">
                     <label for="booking_id" class="form-label">Booking ID</label>
                     <input type="text" name="booking_id" class="form-control" id="booking_id" value="{{isset($edit) ? $passenger->booking_id:$booking_id}}">
                 </div>

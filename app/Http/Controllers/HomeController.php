@@ -9,6 +9,7 @@ use App\Models\Passenager;
 use App\Models\User;
 use App\Models\UserLog;
 use App\Models\VehicleType;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,12 @@ class HomeController extends Controller
         if($user->role == 'Admin'){
             $drivers = User::where('role','Driver')->count();
             $partners = User::where('role','Partner')->count();
+            $rejected_rides = Booking::where('status', '=', 'rejected')->count();
+            $accepted_rides = Booking::where('status', '=', 'accepted')->count();
+            $pending_rides = Booking::where('status', '=', 'pending')->count();
+            $today_rides = Booking::where('created_at', Carbon::now())->count();
+            $active_rides = Booking::where('status', '!=', 'completed')->where('status', '!=', 'rejected')->where('status', '!=', 'not_shown')->count();
+
             $data = [
                 "cards" => [
                     [
@@ -37,12 +44,27 @@ class HomeController extends Controller
                     ],
                     [
                         "card_title" => "Active Rides",
-                        "card_value" => "6 (dummy)",
+                        "card_value" => $active_rides,
                         "card_icon" => '<i class="fa fa-chart-area fa-3x text-primary"></i>'
                     ],
                     [
                         "card_title" => "Today Rides",
-                        "card_value" => "1 (dummy)",
+                        "card_value" => $today_rides,
+                        "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
+                    ],
+                    [
+                        "card_title" => "Accepted Rides",
+                        "card_value" => $accepted_rides,
+                        "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
+                    ],
+                    [
+                        "card_title" => "Decline Rides",
+                        "card_value" => $rejected_rides,
+                        "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
+                    ],
+                    [
+                        "card_title" => "Confirmed Rides",
+                        "card_value" => $pending_rides,
                         "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
                     ],
                 ]
@@ -98,7 +120,7 @@ class HomeController extends Controller
         }
     }
     public function completeBooking($id){
-        if($this->statusChangeBooking($id,'completed')['status'] == true){
+        if($this->statusChangeBooking($id,'completed')){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -115,6 +137,14 @@ class HomeController extends Controller
     }
     public function arriveBooking($id){
         if($this->statusChangeBooking($id,'arrived')){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function onTheWayBooking($id){
+        if($this->statusChangeBooking($id,'ontheway')){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -473,6 +503,8 @@ class HomeController extends Controller
         $booking->location = $request->location;
         $booking->pick_date_time = $request->pick_date_time;
         $booking->vehicle_type = $request->vehicle_type;
+        $booking->passenger_nos = $request->passenger_nos;
+        $booking->currency = $request->currency;
         $booking->extras = $request->extras;
         $booking->partner_id = Auth::user()->id;
 
@@ -542,6 +574,8 @@ class HomeController extends Controller
         $booking->pick_date_time = $request->pick_date_time;
         $booking->vehicle_type = $request->vehicle_type;
         $booking->price = $request->price;
+        $booking->passenger_nos = $request->passenger_nos;
+        $booking->currency = $request->currency;
         $booking->extras = $implodedKeys ?? "";
         $booking->partner_id = Auth::user()->id;
         $booking->status = "pending";

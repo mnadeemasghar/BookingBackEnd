@@ -61,6 +61,10 @@
                         <input type="text" name="location" class="form-control" id="location" value="{{ $booking->location }}" disabled>
                     </div>
                     <div class="mb-3">
+                        <label for="passenger_nos" class="form-label">Passenger Nos</label>
+                        <input type="text" name="passenger_nos" class="form-control" id="passenger_nos" value="{{ $booking->passenger_nos }}" disabled>
+                    </div>
+                    <div class="mb-3">
                         <label for="pick_date_time" class="form-label">Pick Date Time</label>
                         <input type="text" name="pick_date_time" class="form-control" id="pick_date_time" value="{{ $booking->pick_date_time }}" disabled>
                     </div>
@@ -74,7 +78,7 @@
                     </div>
                     <div class="mb-3">
                         <label for="price" class="form-label">Price</label>
-                        <input type="text" name="price" class="form-control" id="price" value="{{ $booking->price }}" disabled>
+                        <input type="text" name="price" class="form-control" id="price" value="{{ $booking->currency ?? "" }} {{ $booking->price }}" disabled>
                     </div>
                     <h6>Passenger Details</h6>
                     @foreach ($booking->passengers as $passenger)
