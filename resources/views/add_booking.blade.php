@@ -64,6 +64,10 @@
                     <form action="{{ isset($edit) ? route('updateBooking',['id'=> $booking->id]) : route('storeBooking') }}" method="POST">
                         @csrf
                         <div class="mb-3">
+                            <label for="booking_id" class="form-label">Booking ID</label>
+                            <input type="text" name="booking_id" class="form-control" value="{{ isset($edit) ? $booking->booking_id:'' }}" placeholder="Pre-booked booking id" id="booking_id">
+                        </div>
+                        <div class="mb-3">
                             <label for="destination" class="form-label">Drop Off</label>
                             <input type="text" name="destination" class="form-control" value="{{ isset($edit) ? $booking->destination:'' }}" placeholder="City Center, train station. Etc. hotel or property" id="destination">
                         </div>

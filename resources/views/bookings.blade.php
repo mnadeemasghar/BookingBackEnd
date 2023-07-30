@@ -40,7 +40,7 @@
                             <tbody>
                                 @foreach ($bookings as $booking)
                                     <tr>
-                                        <td>{{$booking->id}}</td>
+                                        <td>{{$booking->booking_id}}</td>
                                         <td>{{$booking->destination}}</td>
                                         <td>{{$booking->location}}</td>
                                         <td>{{$booking->pick_date_time}}</td>

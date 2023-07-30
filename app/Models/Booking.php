@@ -19,7 +19,7 @@ class Booking extends Model
         'partner_id',
         'price',
         'reason',
-        'not_shown_img',
+        'booking_id',
         'price_driver',
         'passenger_nos',
         'currency'

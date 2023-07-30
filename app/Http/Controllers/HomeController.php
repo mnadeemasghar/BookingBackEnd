@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Models\ActiveDriver;
 use App\Models\Booking;
 use App\Models\BookingTimestamp;
+use App\Models\Noshow;
 use App\Models\Passenager;
 use App\Models\User;
 use App\Models\UserLog;
@@ -24,6 +26,7 @@ class HomeController extends Controller
         if($user->role == 'Admin'){
             $drivers = User::where('role','Driver')->count();
             $partners = User::where('role','Partner')->count();
+            $active_drivers = ActiveDriver::count();
             $rejected_rides = Booking::where('status', '=', 'rejected')->count();
             $accepted_rides = Booking::where('status', '=', 'accepted')->count();
             $pending_rides = Booking::where('status', '=', 'pending')->count();
@@ -67,6 +70,11 @@ class HomeController extends Controller
                         "card_value" => $pending_rides,
                         "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
                     ],
+                    [
+                        "card_title" => "Active Drivers",
+                        "card_value" => $active_drivers,
+                        "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
+                    ]
                 ]
             ];
         }
@@ -193,8 +201,10 @@ class HomeController extends Controller
             $not_shown_img->move($path, $not_shown_img_name);
             $data['not_shown_img'] = $not_shown_img_name;
 
-            $booking = Booking::where('id',$id)->first();
-            $booking->update($data);
+            $data['lat'] = $request->lat;
+            $data['lon'] = $request->lon;
+            $data['booking_id'] = $id;
+            $nowshow = Noshow::create($data);
         }
 
 
@@ -505,6 +515,7 @@ class HomeController extends Controller
         $booking->vehicle_type = $request->vehicle_type;
         $booking->passenger_nos = $request->passenger_nos;
         $booking->currency = $request->currency;
+        $booking->booking_id = $request->booking_id;
         $booking->extras = $request->extras;
         $booking->partner_id = Auth::user()->id;
 
@@ -576,6 +587,7 @@ class HomeController extends Controller
         $booking->price = $request->price;
         $booking->passenger_nos = $request->passenger_nos;
         $booking->currency = $request->currency;
+        $booking->booking_id = $request->booking_id;
         $booking->extras = $implodedKeys ?? "";
         $booking->partner_id = Auth::user()->id;
         $booking->status = "pending";
