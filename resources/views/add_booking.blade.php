@@ -76,7 +76,7 @@
                             <input type="text" name="location" class="form-control" value="{{ isset($edit) ? $booking->location:'' }}" id="location">
                         </div>
                         <div class="mb-3">
-                            <label for="passenger_nos" class="form-label">passenger_nos</label>
+                            <label for="passenger_nos" class="form-label">Passengers</label>
                             <input type="number" name="passenger_nos" class="form-control" value="{{ isset($edit) ? $booking->passenger_nos:'' }}" id="passenger_nos">
                         </div>
                         <div class="mb-3">

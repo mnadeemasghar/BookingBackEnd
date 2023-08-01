@@ -75,7 +75,19 @@
                 </div>
                 <div class="mb-3">
                     <label for="suitcase_number" class="form-label">Suitcase Number</label>
-                    <input type="text" name="suitcase_number" class="form-control" id="suitcase_number" value="{{isset($edit) ? $passenger->suitcase_number:''}}">
+                    {{-- <input type="text" name="suitcase_number" class="form-control" id="suitcase_number" value="{{isset($edit) ? $passenger->suitcase_number:''}}"> --}}
+                    <select name="suitcase_number" class="form-control" id="suitcase_number">
+                        <option value="1" {{isset($edit) ? $passenger->suitcase_number == 1 ? "selected" : "" :''}} >1</option>
+                        <option value="2" {{isset($edit) ? $passenger->suitcase_number == 2 ? "selected" : "" :''}} >2</option>
+                        <option value="3" {{isset($edit) ? $passenger->suitcase_number == 3 ? "selected" : "" :''}} >3</option>
+                        <option value="4" {{isset($edit) ? $passenger->suitcase_number == 4 ? "selected" : "" :''}} >4</option>
+                        <option value="5" {{isset($edit) ? $passenger->suitcase_number == 5 ? "selected" : "" :''}} >5</option>
+                        <option value="6" {{isset($edit) ? $passenger->suitcase_number == 6 ? "selected" : "" :''}} >6</option>
+                        <option value="7" {{isset($edit) ? $passenger->suitcase_number == 7 ? "selected" : "" :''}} >7</option>
+                        <option value="8" {{isset($edit) ? $passenger->suitcase_number == 8 ? "selected" : "" :''}} >8</option>
+                        <option value="9" {{isset($edit) ? $passenger->suitcase_number == 9 ? "selected" : "" :''}} >9</option>
+                        <option value="10" {{isset($edit) ? $passenger->suitcase_number == 10 ? "selected" : "" :''}} >10</option>
+                    </select>
                 </div>
                 <div class="mb-3">
                     <label for="flight_date_time" class="form-label">Flight Date Time</label>
