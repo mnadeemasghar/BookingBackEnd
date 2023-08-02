@@ -517,6 +517,11 @@ class HomeController extends Controller
         $booking->currency = $request->currency;
         $booking->booking_id = $request->booking_id;
         $booking->extras = $request->extras;
+
+        if($booking->status == "rejected"){
+            $booking->status = $booking->status == "rejected" ? "pending":$booking->status;
+            $this->statusChangeBooking($booking->id,'pending');
+        }
         $booking->partner_id = Auth::user()->id;
 
         if($booking->save()){
