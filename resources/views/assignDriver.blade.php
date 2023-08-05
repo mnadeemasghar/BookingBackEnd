@@ -26,7 +26,9 @@
                     <label for="driver_id" class="form-label">Driver</label>
                     <select name="driver_id" class="form-control" id="driver_id">
                         @foreach ($drivers as $driver)
-                            <option value="{{ $driver->id }}">{{ $driver->id }} - {{ $driver->name }}</option>
+                            @if ($driver->available)
+                                <option value="{{ $driver->id }}">{{ $driver->id }} - {{ $driver->name }}</option>
+                            @endif
                         @endforeach
                     </select>
                 </div>

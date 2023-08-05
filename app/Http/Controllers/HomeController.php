@@ -79,33 +79,36 @@ class HomeController extends Controller
             ];
         }
         else if($user->role == 'Partner'){
-            $drivers = User::where('role','Driver')->count();
+            $your_rides = Booking::where('partner_id',$user->id)->count();
+            $your_today_rides = Booking::where('partner_id',$user->id)->whereDate('pick_date_time',Carbon::today())->count();
             $data = [
                 "cards" => [
                     [
                         "card_title" => "Your Rides",
-                        "card_value" => "6 (dummy)",
+                        "card_value" => $your_rides,
                         "card_icon" => '<i class="fa fa-chart-area fa-3x text-primary"></i>'
                     ],
                     [
                         "card_title" => "Your Today Rides",
-                        "card_value" => "1 (dummy)",
+                        "card_value" => $your_today_rides,
                         "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
                     ],
                 ]
             ];
         }
         else if($user->role == 'Driver'){
+            $your_rides = Booking::where('driver_id',$user->id)->count();
+            $your_today_rides = Booking::where('driver_id',$user->id)->whereDate('pick_date_time',Carbon::today())->count();
             $data = [
                 "cards" => [
                     [
                         "card_title" => "Your Rides",
-                        "card_value" => "6 (dummy)",
+                        "card_value" => $your_rides,
                         "card_icon" => '<i class="fa fa-chart-area fa-3x text-primary"></i>'
                     ],
                     [
                         "card_title" => "Your Today Rides",
-                        "card_value" => "1 (dummy)",
+                        "card_value" => $your_today_rides,
                         "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
                     ],
                 ]
@@ -345,10 +348,28 @@ class HomeController extends Controller
             'name' => $user->name
         ]);
     }
-    public function assignDriver($booking_id)
+    public function assignDriver($booking_id, $time = 0)
     {
         $user = Auth::user();
         $drivers = User::where('role','Driver')->get();
+        foreach($drivers as $driver){
+            $lastavailable = Booking::where("driver_id",$driver->id)->pluck('pick_date_time')->max();
+            if($lastavailable == null){
+                $lastavailable = Carbon::now()->subHours($time);
+                // dd($booking_id,$lastavailable);
+            }
+            $lastavailableDateTime = Carbon::parse($lastavailable)->addHours($time);
+            $isAvailableCount = Booking::where("id",$booking_id)->where("pick_date_time",">=",$lastavailableDateTime)->count();
+
+            if($isAvailableCount > 0){
+                $driver->available = true;
+            }
+            else{
+                $driver->available = false;
+            }
+        }
+
+
         $booking = Booking::where('id',$booking_id)->first();
         return view('assignDriver')->with([
             'role' => $user->role,
@@ -389,6 +410,7 @@ class HomeController extends Controller
             'id' => $user->id,
             'edit' => true,
             'booking' => $booking,
+            'booking_id' => $booking->id,
             'vehicleTypes' => $vehicleTypes
         ]);
     }
@@ -818,6 +840,18 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $bookings = Booking::where('status',"accepted")->with('passengers')->with('driver')->get();
+        return view('bookings')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'accepted' => true,
+            'bookings' => $bookings
+        ]);
+    }
+    public function unattendedBookings()
+    {
+        $user = Auth::user();
+        $bookings = Booking::wherein('status',["pending"])->whereDate('created_at',"<=",Carbon::now()->addMinutes(15))->with('passengers')->with('driver')->get();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,

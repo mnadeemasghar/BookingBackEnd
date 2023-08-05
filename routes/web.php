@@ -47,7 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::get('vehicleTypes', [App\Http\Controllers\HomeController::class, 'vehicleTypes'])->name('vehicleTypes');
     Route::get('add-vehicle', [App\Http\Controllers\HomeController::class, 'addVehicle'])->name('addVehicle');
     Route::get('add-partners', [App\Http\Controllers\HomeController::class, 'addPartners'])->name('addPartners');
-    Route::get('assign-driver/{booking_id}', [App\Http\Controllers\HomeController::class, 'assignDriver'])->name('assignDriver');
+    Route::get('assign-driver/{booking_id}/{time?}', [App\Http\Controllers\HomeController::class, 'assignDriver'])->name('assignDriver');
     Route::post('assign-driver-store/{booking_id}', [App\Http\Controllers\HomeController::class, 'assignDriverStore'])->name('assignDriverStore');
     Route::get('edit-vehicle/{id}', [App\Http\Controllers\HomeController::class, 'editVehicle'])->name('editVehicle');
     Route::get('edit-passenger/{id}', [App\Http\Controllers\HomeController::class, 'editPassenger'])->name('editPassenger');
@@ -76,6 +76,7 @@ Route::middleware('auth')->group(function () {
     Route::get('booking-detail/{booking_id}', [App\Http\Controllers\HomeController::class, 'bookingDetail'])->name('bookingDetail');
     Route::get('pending-bookings', [App\Http\Controllers\HomeController::class, 'pendingBookings'])->name('pendingBookings');
     Route::get('accepted-bookings', [App\Http\Controllers\HomeController::class, 'acceptedBookings'])->name('acceptedBookings');
+    Route::get('unattended-bookings', [App\Http\Controllers\HomeController::class, 'unattendedBookings'])->name('unattendedBookings');
     Route::get('rejected-bookings', [App\Http\Controllers\HomeController::class, 'rejectedBookings'])->name('rejectedBookings');
     Route::get('assigned-bookings', [App\Http\Controllers\HomeController::class, 'assignedBookings'])->name('assignedBookings');
     Route::get('assigned-driver-bookings/{driver_id}', [App\Http\Controllers\HomeController::class, 'assignedDriverBookings'])->name('assignedDriverBookings');
