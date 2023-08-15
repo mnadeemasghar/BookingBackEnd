@@ -99,6 +99,31 @@ class HomeController extends Controller
         else if($user->role == 'Driver'){
             $your_rides = Booking::where('driver_id',$user->id)->count();
             $your_today_rides = Booking::where('driver_id',$user->id)->whereDate('pick_date_time',Carbon::today())->count();
+            $logs = UserLog::where('user_id',$user->id)->orderBy('id', 'ASC')->get();
+
+            $total_seconds = 0;
+            $start_act = null;
+
+            foreach ($logs as $log) {
+                if ($log->activity == "login") {
+                    $start_act = $log->created_at;
+                }
+                if ($log->activity == "logout" && $start_act !== null) {
+                    $end_act = $log->created_at;
+                    $time_diff = $start_act->diff($end_act);
+
+                    // Convert the time difference to seconds and add to the total
+                    $total_seconds += $time_diff->h * 3600 + $time_diff->i * 60 + $time_diff->s;
+                }
+            }
+
+            // Convert the total seconds to H:i:s format
+            $total_hours = floor($total_seconds / 3600);
+            $total_minutes = floor(($total_seconds % 3600) / 60);
+            $total_seconds %= 60;
+
+            $total_time_formatted = sprintf('%02d:%02d:%02d', $total_hours, $total_minutes, $total_seconds);
+
             $data = [
                 "cards" => [
                     [
@@ -109,6 +134,11 @@ class HomeController extends Controller
                     [
                         "card_title" => "Your Today Rides",
                         "card_value" => $your_today_rides,
+                        "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
+                    ],
+                    [
+                        "card_title" => "Working Hours",
+                        "card_value" => $total_time_formatted,
                         "card_icon" => '<i class="fa fa-chart-pie fa-3x text-primary"></i>'
                     ],
                 ]
@@ -186,6 +216,16 @@ class HomeController extends Controller
             'id' => $id
         ]);
     }
+    public function addStopBooking($id){
+        $user = Auth::user();
+        $booking = Booking::where('id',$id)->first();
+        return view('addStop')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $id,
+            'booking' => $booking
+        ]);
+    }
     public function rejectBookingPost(Request $request, $id){
         if($this->statusChangeBooking($id,'rejected', $request->reason)){
             return redirect()->back()->with('msg','Booking Status Updated!');
@@ -213,6 +253,15 @@ class HomeController extends Controller
 
         if($this->statusChangeBooking($id,'not_shown', $request->reason)){
             return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function addStopBookingPost(Request $request, $id){
+        $booking = Booking::where('id',$id)->first();
+        if($booking->update($request->except("_token"))){
+            return redirect()->back()->with('msg','Booking Stop Updated!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');

@@ -147,6 +147,10 @@
                                                         <i class="fa fa-book"></i>
                                                         Complete
                                                     </a>
+                                                    <a href="{{route('addStopBooking',['id' => $booking->id])}}">
+                                                        <i class="fa fa-book"></i>
+                                                        Stops
+                                                    </a>
                                                 @endif
                                             @endif
                                         </td>

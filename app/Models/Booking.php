@@ -22,7 +22,8 @@ class Booking extends Model
         'booking_id',
         'price_driver',
         'passenger_nos',
-        'currency'
+        'currency',
+        'stops'
     ];
 
     public function passengers()

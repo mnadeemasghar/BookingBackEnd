@@ -42,7 +42,9 @@ Route::middleware('auth')->group(function () {
     Route::get('reject-booking/{id}', [App\Http\Controllers\HomeController::class, 'rejectBooking'])->name('rejectBooking');
     Route::post('reject-booking/{id}', [App\Http\Controllers\HomeController::class, 'rejectBookingPost'])->name('rejectBookingPost');
     Route::get('noshow-booking/{id}', [App\Http\Controllers\HomeController::class, 'noshowBooking'])->name('noshowBooking');
+    Route::get('addStop-booking/{id}', [App\Http\Controllers\HomeController::class, 'addStopBooking'])->name('addStopBooking');
     Route::post('noshow-booking/{id}', [App\Http\Controllers\HomeController::class, 'noshowBookingPost'])->name('noshowBookingPost');
+    Route::post('addStop-booking/{id}', [App\Http\Controllers\HomeController::class, 'addStopBookingPost'])->name('addStopBookingPost');
     Route::get('partners', [App\Http\Controllers\HomeController::class, 'partners'])->name('partners');
     Route::get('vehicleTypes', [App\Http\Controllers\HomeController::class, 'vehicleTypes'])->name('vehicleTypes');
     Route::get('add-vehicle', [App\Http\Controllers\HomeController::class, 'addVehicle'])->name('addVehicle');
