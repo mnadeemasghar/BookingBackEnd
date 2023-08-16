@@ -27,7 +27,7 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Deploy via FTP
-      uses: wouter/setup-vsftpd@v1  # This is just an example, use the appropriate FTP action
+      uses: SamKirkland/FTP-Deploy-Action@4.0.0  # This is just an example, use the appropriate FTP action
       with:
         server: ${{ secrets.FTP_SERVER }}
         username: ${{ secrets.FTP_USERNAME }}
