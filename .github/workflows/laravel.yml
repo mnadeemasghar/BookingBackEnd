@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@main
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
       - name: Install dependencies
         run: composer install
       - name: Build dependencies
