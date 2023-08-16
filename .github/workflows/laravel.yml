@@ -5,23 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
-    name: Build ⛏
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@main
-      - name: Copy .env
-        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Composer Install
-        run: composer install
-      - name: Key Generate
-        run: php artisan key:generate
-      - name: Mogrations
-        run: php artisan migrate
   deploy:
     name: Deploy 🚀
-    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
@@ -32,3 +17,16 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+  build:
+    name: Build ⛏
+    need: deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@main
+      - name: Copy .env
+        run: php -r "file_exists('.env') || copy('.env.example', '.env');"
+      - name: Composer Install
+        run: composer install
+      - name: Key Generate
+        run: php artisan key:generate
