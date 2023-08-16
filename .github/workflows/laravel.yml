@@ -19,7 +19,7 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
   build:
     name: Build ⛏
-    need: deploy
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
