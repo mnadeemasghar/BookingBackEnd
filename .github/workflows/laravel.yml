@@ -13,20 +13,22 @@ jobs:
         uses: actions/checkout@main
       - name: Copy .env
         run: php -r "file_exists('.env') || copy('.env.example', '.env');"
-      - name: Install dependencies
+      - name: Composer Install
         run: composer install
-      - name: Build dependencies
+      - name: Key Generate
         run: php artisan key:generate
+      - name: Mogrations
+        run: php artisan migrate
   deploy:
     name: Deploy 🚀
     needs: build
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - name: Checkout repository
         uses: actions/checkout@main
       - name: Sync files to hosting
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with: 
+        with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
