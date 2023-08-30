@@ -1,136 +1,133 @@
 <!DOCTYPE html>
+<!--
+This is a starter template page. Use this page to start your new project from
+scratch. This page gets rid of all links and provides the needed markup only.
+-->
 <html lang="en">
-
 <head>
-    <meta charset="utf-8">
-    <title>NXL Admin</title>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <meta content="" name="keywords">
-    <meta content="" name="description">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{ env("APP_NAME", "App Name")}}</title>
 
-    <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
-
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="{{asset('lib/owlcarousel/assets/owl.carousel.min.css')}}" rel="stylesheet">
-    <link href="{{asset('lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css')}}" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-
-    <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="{{asset('css/style.css')}}" rel="stylesheet">
-
-    <!-- Data Table -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
-
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/adminlte.min.css">
 </head>
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
 
-<body>
-    <div class="container-fluid position-relative d-flex p-0">
-        <!-- Spinner Start -->
-        <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-            <div class="spinner-border text-primary" style="width: 3rem; height: 3rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+  <!-- Navbar -->
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+    <!-- Left navbar links -->
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+      </li>
+    </ul>
+
+    <!-- Right navbar links -->
+    <ul class="navbar-nav ml-auto">
+    </ul>
+  </nav>
+  <!-- /.navbar -->
+
+  <!-- Main Sidebar Container -->
+  <aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">{{ env("APP_NAME", "App Name") }}</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <!-- Sidebar user panel (optional) -->
+      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="image">
+          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
-        <!-- Spinner End -->
+        <div class="info">
+          <a class="d-block">{{ $name }}</a>
+        </div>
+      </div>
 
 
-        <!-- Sidebar Start -->
-        <div class="sidebar pe-4 pb-3">
-            <nav class="navbar bg-secondary navbar-dark">
-                <a href="{{route('home')}}" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>NXL</h3>
-                </a>
-                <div class="d-flex align-items-center ms-4 mb-4">
-                    <div class="position-relative">
-                        <img class="rounded-circle" src="{{ asset('img/user.jpg') }}" alt="" style="width: 40px; height: 40px;">
-                        <div class="bg-success rounded-circle border border-2 border-white position-absolute end-0 bottom-0 p-1"></div>
-                    </div>
-                    <div class="ms-3">
-                        <h6 class="mb-0">{{ $name }}</h6>
-                        <span>{{ $role }}</span>
-                    </div>
-                </div>
-                <div class="navbar-nav w-100">
-                    <a href="{{route('home')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}"><i class="fa fa-tachometer-alt me-2"></i>Dashboard</a>
-                    @if ($role == 'Admin')
-                        <a href="{{route('drivers')}}" class="nav-item nav-link {{ request()->routeIs('drivers') ? 'active' : '' }}"><i class="fa fa-car me-2"></i>Drivers</a>
-                        <a href="{{route('partners')}}" class="nav-item nav-link {{ request()->routeIs('partners') ? 'active' : '' }}"><i class="fa fa-handshake me-2"></i></i>Partners</a>
-                        <a href="{{route('vehicleTypes')}}" class="nav-item nav-link {{ request()->routeIs('vehicleTypes') ? 'active' : '' }}"><i class="fa fa-car me-2"></i></i>Vehicle Types</a>
-                        <a href="{{route('pendingBookings')}}" class="nav-item nav-link {{ request()->routeIs('pendingBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Bookings</a>
-                        <a href="{{route('unattendedBookings')}}" class="nav-item nav-link {{ request()->routeIs('unattendedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Unattended</a>
-                        {{-- <a href="{{route('acceptedBookings')}}" class="nav-item nav-link {{ request()->routeIs('acceptedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Accepted</a>
-                        <a href="{{route('assignedBookings')}}" class="nav-item nav-link {{ request()->routeIs('assignedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Assigned</a>
-                        <a href="{{route('rejectedBookings')}}" class="nav-item nav-link {{ request()->routeIs('rejectedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Rejected</a> --}}
-                    @elseif ($role == 'Partner')
-                        <a href="{{route('bookings')}}" class="nav-item nav-link {{ request()->routeIs('bookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Bookings</a>
-                    @elseif ($role == 'Driver')
-                        <a href="{{route('assignedDriverBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('assignedDriverBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Bookings</a>
-                        {{-- <a href="{{route('arrivedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('arrivedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Arrived</a>
-                        <a href="{{route('onboardBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('onboardBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Onboard</a>
-                        <a href="{{route('completedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('completedBookings') ? 'active' : '' }}"><i class="fa fa-book me-2"></i></i>Completed</a> --}}
-                    @endif
-                    <a href="{{route('logout')}}" class="nav-item nav-link"><i class="fa fa-chart-bar me-2"></i>Logout</a>
-                </div>
+      {{-- side navbar start --}}
+      <div class="sidebar pe-4 pb-3">
+            <nav class="navbar">
+                <a href="{{route('home')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}"><i class="fa fa-tachometer-alt m-2"></i>Dashboard</a>
+                @if ($role == 'Admin')
+                    <a href="{{route('drivers')}}" class="nav-item nav-link {{ request()->routeIs('drivers') ? 'active' : '' }}"><i class="fa fa-car m-2"></i>Drivers</a>
+                    <a href="{{route('partners')}}" class="nav-item nav-link {{ request()->routeIs('partners') ? 'active' : '' }}"><i class="fa fa-handshake m-2"></i></i>Partners</a>
+                    <a href="{{route('vehicleTypes')}}" class="nav-item nav-link {{ request()->routeIs('vehicleTypes') ? 'active' : '' }}"><i class="fa fa-car m-2"></i></i>Vehicle Types</a>
+                    <a href="{{route('pendingBookings')}}" class="nav-item nav-link {{ request()->routeIs('pendingBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Bookings</a>
+                    <a href="{{route('unattendedBookings')}}" class="nav-item nav-link {{ request()->routeIs('unattendedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Unattended</a>
+                    {{-- <a href="{{route('acceptedBookings')}}" class="nav-item nav-link {{ request()->routeIs('acceptedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Accepted</a>
+                    <a href="{{route('assignedBookings')}}" class="nav-item nav-link {{ request()->routeIs('assignedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Assigned</a>
+                    <a href="{{route('rejectedBookings')}}" class="nav-item nav-link {{ request()->routeIs('rejectedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Rejected</a> --}}
+                @elseif ($role == 'Partner')
+                    <a href="{{route('bookings')}}" class="nav-item nav-link {{ request()->routeIs('bookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Bookings</a>
+                @elseif ($role == 'Driver')
+                    <a href="{{route('assignedDriverBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('assignedDriverBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Bookings</a>
+                    {{-- <a href="{{route('arrivedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('arrivedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Arrived</a>
+                    <a href="{{route('onboardBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('onboardBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Onboard</a>
+                    <a href="{{route('completedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('completedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Completed</a> --}}
+                @endif
+                <a href="{{route('logout')}}" class="nav-item nav-link"><i class="fa fa-chart-bar m-2"></i>Logout</a>
             </nav>
         </div>
-        <!-- Sidebar End -->
+      {{-- side navbar end --}}
+
+    </div>
+    <!-- /.sidebar -->
+  </aside>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+
+    <!-- Main content -->
+    <div class="content">
+      <div class="container-fluid">
         @yield('content')
-        <!-- Back to Top -->
-        <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
-
-        <!-- Footer Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="bg-secondary rounded-top p-4">
-                <div class="row">
-                    <div class="col-12 col-sm-6 text-center text-sm-start">
-                        &copy; <a href="#">NXL</a>, All Right Reserved.
-                    </div>
-                    <div class="col-12 col-sm-6 text-center text-sm-end">
-                        <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a href="#">Luxsit Technologies</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Footer End -->
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
     </div>
-    <!-- Content End -->
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+  <!-- Control Sidebar -->
+  <aside class="control-sidebar control-sidebar-dark">
+    <!-- Control sidebar content goes here -->
+    <div class="p-3">
+      <h5>Title</h5>
+      <p>Sidebar content</p>
     </div>
+  </aside>
+  <!-- /.control-sidebar -->
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="{{asset('lib/chart/chart.min.js')}}"></script>
-    <script src="{{asset('lib/easing/easing.min.js')}}"></script>
-    <script src="{{asset('lib/waypoints/waypoints.min.js')}}"></script>
-    <script src="{{asset('lib/owlcarousel/owl.carousel.min.js')}}"></script>
-    <script src="{{asset('lib/tempusdominus/js/moment.min.js')}}"></script>
-    <script src="{{asset('lib/tempusdominus/js/moment-timezone.min.js')}}"></script>
-    <script src="{{asset('lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js')}}"></script>
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
+  <!-- Main Footer -->
+  <footer class="main-footer">
+    <!-- To the right -->
+    <div class="float-right d-none d-sm-inline">
+      Anything you want
+    </div>
+    <!-- Default to the left -->
+    <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+  </footer>
+</div>
+<!-- ./wrapper -->
 
+<!-- REQUIRED SCRIPTS -->
 
-    <!-- Template Javascript -->
-    <script src="{{asset('js/main.js')}}"></script>
-
-    <script>
-        $(document).ready( function () {
-            $('#myTable').DataTable();
-        } );
-    </script>
+<!-- jQuery -->
+<script src="plugins/jquery/jquery.min.js"></script>
+<!-- Bootstrap 4 -->
+<script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- AdminLTE App -->
+<script src="dist/js/adminlte.min.js"></script>
 </body>
-
 </html>

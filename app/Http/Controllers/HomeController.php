@@ -686,6 +686,58 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+
+    public function storeBookingApi(Request $request)
+    {
+        if(isset($request->extras)){
+            $keys = array_keys($request->extras);
+            $implodedKeys = implode(', ', $keys);
+        }
+
+        $booking = new Booking();
+        $booking->destination = $request->destination;
+        $booking->location = $request->location;
+        $booking->pick_date_time = $request->pick_date_time;
+        $booking->vehicle_type = $request->vehicle_type;
+        $booking->price = $request->price;
+        $booking->passenger_nos = $request->passenger_nos;
+        $booking->currency = $request->currency;
+        $booking->booking_id = $request->booking_id;
+        $booking->extras = $implodedKeys ?? "";
+        $booking->partner_id = Auth::user()->id;
+        $booking->status = "pending";
+
+
+        if($booking->save()){
+            $timestamp =  new BookingTimestamp();
+            $timestamp->booking_id = $booking->id;
+            $timestamp->status = "pending";
+
+            if($timestamp->save()){
+                return response()->json([
+                    "status" => true,
+                    "data" => $booking,
+                    "message" => "Booking Created"
+                ],200);
+            }
+            else{
+                return response()->json([
+                    "status" => false,
+                    "data" => [],
+                    "message" => "Something went wrong in Timestamp creation, try again"
+                ],200);
+            }
+
+        }
+        else{
+            return response()->json([
+                "status" => false,
+                "data" => [],
+                "message" => "Something went wrong, try again"
+            ],200);
+        }
+    }
+
     public function assignDriverStore(Request $request, $booking_id)
     {
         $booking = Booking::where('id',$booking_id)->first();
