@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/test', [App\Http\Controllers\HomeController::class, 'test']);
 
 //Clear Cache facade value:
 Route::get('/clear', function () {

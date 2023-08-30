@@ -17,9 +17,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Twilio\Rest\Client;
+use App\Http\Traits\GetBookings;
 
 class HomeController extends Controller
 {
+    use GetBookings;
+    public function test(){
+        return $this->get_bookings();
+    }
+
     public function home()
     {
         $user = Auth::user();
