@@ -24,6 +24,12 @@
     <div class="card-body">
       <p class="login-box-msg">Sign in to start your session</p>
 
+        @if(session()->has('error'))
+            <div class="alert alert-danger">
+                {{ session()->get('error') }}
+            </div>
+        @endif
+
       <form method="POST" action="{{ route('login_check') }}">
         @csrf
         <div class="input-group mb-3">

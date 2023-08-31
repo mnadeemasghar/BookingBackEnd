@@ -1,4 +1,6 @@
 # Taxi Booking
+![Login Page](public/ss/login.PNG)
+![Admin](public/ss/admin_dashboard.PNG)
 ## How to Install
 ```
     git clone https://github.com/mnadeemasghar/BookingBackEnd.git
