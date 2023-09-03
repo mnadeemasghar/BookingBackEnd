@@ -586,6 +586,11 @@ class HomeController extends Controller
     }
     public function updateBooking(Request $request, $id)
     {
+        if(isset($request->extras)){
+            $keys = array_keys($request->extras);
+            $implodedKeys = implode(', ', $keys);
+        }
+
         $booking = Booking::where('id',$id)->first();
         $booking->destination = $request->destination;
         $booking->location = $request->location;
@@ -594,7 +599,7 @@ class HomeController extends Controller
         $booking->passenger_nos = $request->passenger_nos;
         $booking->currency = $request->currency;
         $booking->booking_id = $request->booking_id;
-        $booking->extras = $request->extras;
+        $booking->extras = $implodedKeys ?? "";
 
         if($booking->status == "rejected"){
             $booking->status = $booking->status == "rejected" ? "pending":$booking->status;
