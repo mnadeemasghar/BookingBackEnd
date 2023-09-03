@@ -54,20 +54,20 @@
         @csrf
         <div class="mb-3 d-none">
             <label for="booking_id" class="form-label">Booking ID</label>
-            <input type="text" name="booking_id" class="form-control" id="booking_id" value="{{isset($edit) ? $passenger->booking_id:$booking_id}}">
+            <input type="text" name="booking_id" class="form-control" id="booking_id" value="{{isset($edit) ? $passenger->booking_id:$booking_id}}" required>
         </div>
         <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input type="text" name="name" class="form-control" id="name" value="{{isset($edit) ? $passenger->name:''}}">
+            <input type="text" name="name" class="form-control" id="name" value="{{isset($edit) ? $passenger->name:''}}" required>
         </div>
         <div class="mb-3">
             <label for="phone_number" class="form-label">Phone</label>
-            <input type="text" name="phone_number" class="form-control" id="phone_number" value="{{isset($edit) ? $passenger->phone_number:''}}">
+            <input type="tel" name="phone_number" class="form-control" id="phone_number" value="{{isset($edit) ? $passenger->phone_number:''}}" required>
         </div>
         <div class="mb-3">
             <label for="suitcase_number" class="form-label">Suitcase Number</label>
             {{-- <input type="text" name="suitcase_number" class="form-control" id="suitcase_number" value="{{isset($edit) ? $passenger->suitcase_number:''}}"> --}}
-            <select name="suitcase_number" class="form-control" id="suitcase_number">
+            <select name="suitcase_number" class="form-control" id="suitcase_number" required>
                 <option value="1" {{isset($edit) ? $passenger->suitcase_number == 1 ? "selected" : "" :''}} >1</option>
                 <option value="2" {{isset($edit) ? $passenger->suitcase_number == 2 ? "selected" : "" :''}} >2</option>
                 <option value="3" {{isset($edit) ? $passenger->suitcase_number == 3 ? "selected" : "" :''}} >3</option>
@@ -82,19 +82,19 @@
         </div>
         <div class="mb-3">
             <label for="flight_date_time" class="form-label">Flight Date Time</label>
-            <input type="datetime-local" name="flight_date_time" class="form-control" id="flight_date_time" value="{{isset($edit) ? $passenger->flight_date_time:''}}">
+            <input type="datetime-local" name="flight_date_time" class="form-control" id="flight_date_time" value="{{isset($edit) ? $passenger->flight_date_time:''}}" required>
         </div>
         <div class="mb-3">
             <label for="flight_number" class="form-label">Flight Number</label>
-            <input type="text" name="flight_number" class="form-control" id="flight_number" value="{{isset($edit) ? $passenger->flight_number:''}}">
+            <input type="text" name="flight_number" class="form-control" id="flight_number" value="{{isset($edit) ? $passenger->flight_number:''}}" required>
         </div>
         <div class="mb-3">
             <label for="flight_airline" class="form-label">Flight Airline</label>
-            <input type="text" name="flight_airline" class="form-control" id="flight_airline" value="{{isset($edit) ? $passenger->flight_airline:''}}">
+            <input type="text" name="flight_airline" class="form-control" id="flight_airline" value="{{isset($edit) ? $passenger->flight_airline:''}}" required>
         </div>
         <div class="mb-3">
             <label for="flight_arriving_from" class="form-label">Flight Arriving From</label>
-            <input type="text" name="flight_arriving_from" class="form-control" id="flight_arriving_from" value="{{isset($edit) ? $passenger->flight_arriving_from:''}}">
+            <input type="text" name="flight_arriving_from" class="form-control" id="flight_arriving_from" value="{{isset($edit) ? $passenger->flight_arriving_from:''}}" required>
         </div>
         <button type="submit" class="btn btn-primary">{{ isset($edit) ? "Update Passenger":"Add Passenger" }}</button>
     </form>

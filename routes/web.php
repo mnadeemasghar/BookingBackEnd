@@ -17,6 +17,7 @@ Route::get('/test', [App\Http\Controllers\HomeController::class, 'test']);
 
 //Clear Cache facade value:
 Route::get('/clear', function () {
+    $exitCode = Artisan::call('migrate');
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('optimize');
     $exitCode = Artisan::call('route:cache');

@@ -9,6 +9,7 @@
                     <tr>
                         <th scope="col">Status</th>
                         <th scope="col">Created At</th>
+                        <th scope="col">User</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -16,6 +17,7 @@
                         <tr>
                             <td>{{$booking_timestamp->status}}</td>
                             <td>{{$booking_timestamp->created_at}}</td>
+                            <td>{{$booking_timestamp->user != Null ?? $booking_timestamp->user->id}}</td>
                         </tr>
                     @endforeach
                 </tbody>

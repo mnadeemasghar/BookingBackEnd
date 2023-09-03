@@ -13,4 +13,9 @@ class BookingTimestamp extends Model
         'booking_id',
         'status'
     ];
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','user_id');
+    }
 }

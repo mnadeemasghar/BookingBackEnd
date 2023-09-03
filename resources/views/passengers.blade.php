@@ -79,9 +79,15 @@
                                 <td>{{$passenger->flight_arriving_from}}</td>
                                 <td>
                                     @if ($role == 'Admin' || $role == 'Partner')
-                                        <a href="{{route('editPassenger',['id'=>$passenger->id])}}"> <i class="fa fa-edit"></i>Edit</a>
-                                        |
-                                        <a href="{{route('deletePassenger',['id'=>$passenger->id])}}"> <i class="fa fa-trash"></i>Delete</a>
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                          Action
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="{{route('editPassenger',['id'=>$passenger->id])}}"> <i class="fa fa-edit"></i>Edit</a>
+                                            <a class="dropdown-item" href="{{route('deletePassenger',['id'=>$passenger->id])}}" onclick="if (confirm('Delete selected item?')){return true;}else{event.stopPropagation(); event.preventDefault();};" > <i class="fa fa-trash mr-2"></i>Delete</a>
+                                        </div>
+                                      </div>
                                     @endif
 
                                 </td>

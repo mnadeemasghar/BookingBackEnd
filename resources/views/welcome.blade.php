@@ -15,6 +15,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href={{asset("plugins/fontawesome-free/css/all.min.css")}}>
   <!-- Theme style -->
   <link rel="stylesheet" href={{asset("dist/css/adminlte.min.css")}}>
+
+  <style>
+    .notification .badge {
+        /* position: absolute;
+        top: -10px;
+        right: -10px; */
+        padding: 5px 10px;
+        border-radius: 50%;
+        background: red;
+        color: white;
+        }
+  </style>
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -56,28 +68,28 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
 
       {{-- side navbar start --}}
-      <div class="sidebar pe-4 pb-3">
-            <nav class="navbar">
-                <a href="{{route('home')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}"><i class="fa fa-tachometer-alt m-2"></i>Dashboard</a>
+      <div class="sidebar">
+            {{-- <nav class="navbar"> --}}
+                <a href="{{route('home')}}" class="nav-item nav-link {{ request()->routeIs('home') ? 'active' : '' }}"><i class="fa fa-tachometer-alt mr-5"></i>Dashboard</a>
                 @if ($role == 'Admin')
-                    <a href="{{route('drivers')}}" class="nav-item nav-link {{ request()->routeIs('drivers') ? 'active' : '' }}"><i class="fa fa-car m-2"></i>Drivers</a>
-                    <a href="{{route('partners')}}" class="nav-item nav-link {{ request()->routeIs('partners') ? 'active' : '' }}"><i class="fa fa-handshake m-2"></i></i>Partners</a>
-                    <a href="{{route('vehicleTypes')}}" class="nav-item nav-link {{ request()->routeIs('vehicleTypes') ? 'active' : '' }}"><i class="fa fa-car m-2"></i></i>Vehicle Types</a>
-                    <a href="{{route('pendingBookings')}}" class="nav-item nav-link {{ request()->routeIs('pendingBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Bookings</a>
-                    <a href="{{route('unattendedBookings')}}" class="nav-item nav-link {{ request()->routeIs('unattendedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Unattended</a>
-                    {{-- <a href="{{route('acceptedBookings')}}" class="nav-item nav-link {{ request()->routeIs('acceptedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Accepted</a>
-                    <a href="{{route('assignedBookings')}}" class="nav-item nav-link {{ request()->routeIs('assignedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Assigned</a>
-                    <a href="{{route('rejectedBookings')}}" class="nav-item nav-link {{ request()->routeIs('rejectedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Rejected</a> --}}
+                    <a href="{{route('drivers')}}" class="nav-item nav-link {{ request()->routeIs('drivers') ? 'active' : '' }}"><i class="fa fa-car mr-5"></i>Drivers</a>
+                    <a href="{{route('partners')}}" class="nav-item nav-link {{ request()->routeIs('partners') ? 'active' : '' }}"><i class="fa fa-handshake mr-5"></i></i>Partners</a>
+                    <a href="{{route('vehicleTypes')}}" class="nav-item nav-link {{ request()->routeIs('vehicleTypes') ? 'active' : '' }}"><i class="fa fa-car mr-5"></i></i>Vehicle Types</a>
+                    <a href="{{route('pendingBookings')}}" class="nav-item nav-link {{ request()->routeIs('pendingBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Bookings</a>
+                    <a href="{{route('unattendedBookings')}}" class="nav-item nav-link notification {{ request()->routeIs('unattendedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Unattended<span class="badge">{{Helper::unattended_rides()->count()}}</span></a>
+                    {{-- <a href="{{route('acceptedBookings')}}" class="nav-item nav-link {{ request()->routeIs('acceptedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Accepted</a>
+                    <a href="{{route('assignedBookings')}}" class="nav-item nav-link {{ request()->routeIs('assignedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Assigned</a>
+                    <a href="{{route('rejectedBookings')}}" class="nav-item nav-link {{ request()->routeIs('rejectedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Rejected</a> --}}
                 @elseif ($role == 'Partner')
-                    <a href="{{route('bookings')}}" class="nav-item nav-link {{ request()->routeIs('bookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Bookings</a>
+                    <a href="{{route('bookings')}}" class="nav-item nav-link {{ request()->routeIs('bookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Bookings</a>
                 @elseif ($role == 'Driver')
-                    <a href="{{route('assignedDriverBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('assignedDriverBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Bookings</a>
-                    {{-- <a href="{{route('arrivedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('arrivedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Arrived</a>
-                    <a href="{{route('onboardBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('onboardBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Onboard</a>
-                    <a href="{{route('completedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('completedBookings') ? 'active' : '' }}"><i class="fa fa-book m-2"></i></i>Completed</a> --}}
+                    <a href="{{route('assignedDriverBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('assignedDriverBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Bookings</a>
+                    {{-- <a href="{{route('arrivedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('arrivedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Arrived</a>
+                    <a href="{{route('onboardBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('onboardBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Onboard</a>
+                    <a href="{{route('completedBookings',['driver_id'=>$id])}}" class="nav-item nav-link {{ request()->routeIs('completedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Completed</a> --}}
                 @endif
-                <a href="{{route('logout')}}" class="nav-item nav-link"><i class="fa fa-chart-bar m-2"></i>Logout</a>
-            </nav>
+                <a href="{{route('logout')}}" class="nav-item nav-link"><i class="fa fa-chart-bar mr-5"></i>Logout</a>
+            {{-- </nav> --}}
         </div>
       {{-- side navbar end --}}
 

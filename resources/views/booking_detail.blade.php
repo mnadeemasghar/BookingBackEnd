@@ -58,8 +58,12 @@
                             <input type="text" name="passenger_nos" class="form-control" id="passenger_nos" value="{{ $booking->passenger_nos }}" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="pick_date_time" class="form-label">Pick Date Time</label>
-                            <input type="text" name="pick_date_time" class="form-control" id="pick_date_time" value="{{ $booking->pick_date_time }}" disabled>
+                            <label for="pick_date_time" class="form-label">Pick Date</label>
+                            <input type="text" name="pick_date_time" class="form-control" id="pick_date_time" value="{{date('d/m/Y', strtotime($booking->pick_date_time))}}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="pick_date_time" class="form-label">Pick Time</label>
+                            <input type="text" name="pick_date_time" class="form-control" id="pick_date_time" value="{{date('H:m', strtotime($booking->pick_date_time))}}" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="vehicle_type" class="form-label">Vehicle Type</label>
@@ -88,12 +92,16 @@
                             <input type="text" name="phone_number" class="form-control" id="phone_number" value="{{ $passenger->phone_number }}" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="suitcase_number" class="form-label">Pick Date Time</label>
+                            <label for="suitcase_number" class="form-label">No. of Suitcase(s)</label>
                             <input type="text" name="suitcase_number" class="form-control" id="suitcase_number" value="{{ $passenger->suitcase_number }}" disabled>
                         </div>
                         <div class="mb-3">
-                            <label for="flight_date_time" class="form-label">Flight Date Time</label>
-                            <input type="text" name="flight_date_time" class="form-control" id="flight_date_time" value="{{ $passenger->flight_date_time }}" disabled>
+                            <label for="flight_date_time" class="form-label">Flight Date</label>
+                            <input type="text" name="flight_date_time" class="form-control" id="flight_date_time" value="{{date('d/m/Y', strtotime($passenger->flight_date_time))}}" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="flight_date_time" class="form-label">Flight Time</label>
+                            <input type="text" name="flight_date_time" class="form-control" id="flight_date_time" value="{{date('H:m', strtotime($passenger->flight_date_time))}}" disabled>
                         </div>
                         <div class="mb-3">
                             <label for="flight_number" class="form-label">Flight Number</label>

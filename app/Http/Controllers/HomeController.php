@@ -282,6 +282,7 @@ class HomeController extends Controller
 
         $timestamp = new BookingTimestamp();
         $timestamp->booking_id = $id;
+        $timestamp->user_id = Auth::user()->id;
         $timestamp->status = $status;
 
         Helper::userLogEntry('booking:'.$id.", status changed:".$status);
@@ -530,7 +531,7 @@ class HomeController extends Controller
 
 
         if($user->save()){
-            return redirect()->back()->with('msg','Driver Added!');
+            return redirect()->route('drivers')->with('msg','Driver Added!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');
@@ -559,7 +560,7 @@ class HomeController extends Controller
         }
 
         if($user->save()){
-            return redirect()->back()->with('msg','Driver Updated!');
+            return redirect()->route('drivers')->with('msg','Driver Updated!');
         }
         else{
             return redirect()->back()->with('error','Something went wrong, try again');
@@ -678,6 +679,7 @@ class HomeController extends Controller
         if($booking->save()){
             $timestamp =  new BookingTimestamp();
             $timestamp->booking_id = $booking->id;
+            $timestamp->user_id = Auth::user()->id;
             $timestamp->status = "pending";
 
             if($timestamp->save()){
@@ -717,6 +719,7 @@ class HomeController extends Controller
         if($booking->save()){
             $timestamp =  new BookingTimestamp();
             $timestamp->booking_id = $booking->id;
+            $timestamp->user_id = Auth::user()->id;
             $timestamp->status = "pending";
 
             if($timestamp->save()){
@@ -788,7 +791,7 @@ class HomeController extends Controller
     public function viewLogs($booking_id)
     {
         $user = Auth::user();
-        $booking_timestamps = BookingTimestamp::where('booking_id',$booking_id)->get();
+        $booking_timestamps = BookingTimestamp::where('booking_id',$booking_id)->with('user')->get();
         return view('booking_timestamps')->with([
             'role' => $user->role,
             'name' => $user->name,
@@ -958,7 +961,7 @@ class HomeController extends Controller
     public function unattendedBookings()
     {
         $user = Auth::user();
-        $bookings = Booking::wherein('status',["pending"])->whereDate('created_at',"<=",Carbon::now()->addMinutes(15))->with('passengers')->with('driver')->get();
+        $bookings = Helper::unattended_rides();
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
