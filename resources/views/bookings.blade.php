@@ -8,6 +8,28 @@
             @endif
             <input id="searchPt" class="mt-3 form-control" placeholder="search...">
             <div class="row">
+                <p>Transferz bookings...</p>
+                @isset($transferz_bookings)
+                    @foreach ($transferz_bookings as $transferz_booking)
+                        <div class="card col-sm-1 col-md-6 col-lg-3 m-2">
+                            <div class="card-body">
+                                <i class="fa fa-key"></i> {{$transferz_booking['booking_id']}}
+                                <br><i class="fa fa-map-marker"></i> {{$transferz_booking['destination']}}
+                                <br><i class="fa fa-arrow-right"></i> {{$transferz_booking['location']}}
+                                <br><i class="fa fa-clock"></i> {{date('d/m/Y H:m', strtotime($transferz_booking['pick_date_time']))}}
+                                <br><i class="fa fa-car"></i> {{$transferz_booking['vehicle_type']}}
+                                <br><i class="fa fa-th"></i> {{$transferz_booking['extras']}}
+                                <br><i class="fa fa-users"></i> {{$transferz_booking['passenger_nos']}}
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                <span>No Transferz booking</span>
+                @endisset
+            </div>
+
+            <div class="row">
+                <p>{{ env('APP_NAME') }} bookings...</p>
                 @foreach ($bookings as $booking)
                     <div class="card col-sm-1 col-md-6 col-lg-3 m-2">
                         <div class="card-body">

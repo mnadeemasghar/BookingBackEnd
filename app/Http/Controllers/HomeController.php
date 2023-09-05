@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Traits\ApiKeyMe;
+use App\Http\Traits\GenerateToken;
+use App\Http\Traits\GetAvailableOffers;
 use App\Models\ActiveDriver;
 use App\Models\Booking;
 use App\Models\BookingTimestamp;
@@ -18,12 +21,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Twilio\Rest\Client;
 use App\Http\Traits\GetBookings;
+use Illuminate\Database\Eloquent\Collection;
 
 class HomeController extends Controller
 {
-    use GetBookings;
+    use GetBookings, GenerateToken, ApiKeyMe, GetAvailableOffers;
     public function test(){
-        return $this->get_bookings();
+        return $this->GetAvailableOffers(
+            $this->ApiKeyMe(
+                $this->GenerateToken()
+            )
+        );
     }
 
     public function home()
@@ -980,11 +988,43 @@ class HomeController extends Controller
         $user = Auth::user();
         // $bookings = Booking::where('status',"pending")->with('passengers')->with('driver')->get();
         $bookings = Booking::with('passengers')->with('driver')->get();
+
+        $offers = $this->GetAvailableOffers(
+                $this->ApiKeyMe(
+                    $this->GenerateToken()
+                )
+            );
+
+        foreach($offers as $offer){
+            $return_array = array();
+            array_push($return_array,[
+                'destination' => $offer->journey->dropoff->fullResolvedAddress->streetName . ", "
+                                . $offer->journey->dropoff->fullResolvedAddress->city,
+                'location' => $offer->journey->pickup->fullResolvedAddress->streetName . ", "
+                                . $offer->journey->pickup->fullResolvedAddress->city,
+                'pick_date_time' => $offer->journey->pickupTime->localTime,
+                'vehicle_type' => $offer->journey->vehicleCategory,
+                'extras' => implode(", ",$offer->journey->addOns),
+                'partner_id' => "0",
+                'price' => "0",
+                'reason' => "0",
+                'booking_id' => $offer->journey->id,
+                'price_driver' => "0",
+                'passenger_nos' => $offer->journey->travellerInfo->passengerCount,
+                'currency',
+                'stops'
+            ]);
+        }
+
+        $transferz_bookings = Collection::make($return_array);
+
+
         return view('bookings')->with([
             'role' => $user->role,
             'name' => $user->name,
             'id' => $user->id,
-            'bookings' => $bookings
+            'bookings' => $bookings,
+            'transferz_bookings' => $transferz_bookings
         ]);
     }
     public function addBooking()

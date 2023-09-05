@@ -1,15 +1,23 @@
 <?php
+
 namespace App\Http\Traits;
 
-trait GenerateToken
-{
-    use ApiCall;
-    protected function generate_token(){
-        $response = $this->api_call_post(
-            'https://gateway.staging.transferz.com/auth/auth/generate-token',
-            '{"email":"'.env("TRANSFERZ_EMAIL").'","password":"'.env('TRANSFERZ_PASSWORD').'"}'
-        );
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\Request;
 
-        return $response->accessToken;
+trait GenerateToken {
+    public function GenerateToken(){
+        $client = new Client();
+        $headers = [
+        'Accept' => 'application/json',
+        'Content-Type' => 'application/json',
+        ];
+        $body = '{
+        "email": "contact@nordicxpresslimousine.dk",
+        "password": "0OyznLqi4LoL"
+        }';
+        $request = new Request('POST', 'https://gateway.staging.transferz.com/auth/auth/generate-token', $headers, $body);
+        $res = $client->sendAsync($request)->wait();
+        return json_decode($res->getBody())->accessToken;
     }
 }
