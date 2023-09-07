@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Helper;
+use App\Http\Traits\AcceptOffer;
 use App\Http\Traits\ApiKeyMe;
+use App\Http\Traits\AssignToDriver;
+use App\Http\Traits\DeclineOffer;
 use App\Http\Traits\GenerateToken;
 use App\Http\Traits\GetAvailableOffers;
 use App\Models\ActiveDriver;
@@ -21,11 +24,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Twilio\Rest\Client;
 use App\Http\Traits\GetBookings;
+use App\Models\Transferz;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Artisan;
 
 class HomeController extends Controller
 {
-    use GetBookings, GenerateToken, ApiKeyMe, GetAvailableOffers;
+    use GetBookings;
+    use GenerateToken;
+    use ApiKeyMe;
+    use GetAvailableOffers;
+    use AcceptOffer;
+    use DeclineOffer;
+    use AssignToDriver;
+
     public function test(){
         return $this->GetAvailableOffers(
             $this->ApiKeyMe(
@@ -214,9 +226,25 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+    public function acceptBookingTransferz($id, $meetingPointId, $type){
+        if($this->AcceptOffer($id, $meetingPointId, $type)){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
     public function rejectBooking($id){
         $user = Auth::user();
         return view('reject')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $id
+        ]);
+    }
+    public function rejectBookingTransferz($id){
+        $user = Auth::user();
+        return view('reject-transferz')->with([
             'role' => $user->role,
             'name' => $user->name,
             'id' => $id
@@ -242,6 +270,14 @@ class HomeController extends Controller
     }
     public function rejectBookingPost(Request $request, $id){
         if($this->statusChangeBooking($id,'rejected', $request->reason)){
+            return redirect()->back()->with('msg','Booking Status Updated!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
+    public function rejectBookingPostTransferz(Request $request, $id){
+        if($this->DeclineOffer($id, $request->reason, $request->description)){
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -404,6 +440,30 @@ class HomeController extends Controller
             'name' => $user->name
         ]);
     }
+    public function transferzUser()
+    {
+        $user = Auth::user();
+        $email = Transferz::where("key", "TRANSFERZ_EMAIL")->first();
+        $password = Transferz::where("key", "TRANSFERZ_PASSWORD")->first();
+
+        return view('transferzUser')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'email' => $email->value,
+            'password' => $password->value
+        ]);
+    }
+    public function updateTransferzUser(Request $request)
+    {
+        $email = Transferz::where('key', "TRANSFERZ_EMAIL")->first();
+
+        $password = Transferz::where('key', "TRANSFERZ_PASSWORD")->first();
+
+        $email->update(['key' => "TRANSFERZ_EMAIL", 'value' => $request->TRANSFERZ_EMAIL]);
+        $password->update(['key' => "TRANSFERZ_PASSWORD", 'value' => $request->TRANSFERZ_PASSWORD]);
+
+        return redirect()->back()->with('msg','User Updated!');
+    }
     public function addVehicle()
     {
         $user = Auth::user();
@@ -441,6 +501,18 @@ class HomeController extends Controller
             'id' => $user->id,
             'drivers' => $drivers,
             'booking' => $booking
+        ]);
+    }
+    public function assignDriverTransferz($booking_id, $time = 0)
+    {
+        $user = Auth::user();
+        $drivers = User::where('role','Driver')->get();
+        return view('assignDriverTransferz')->with([
+            'role' => $user->role,
+            'name' => $user->name,
+            'id' => $user->id,
+            'drivers' => $drivers,
+            'booking_id' => $booking_id
         ]);
     }
     public function addPartners()
@@ -774,6 +846,17 @@ class HomeController extends Controller
             return redirect()->back()->with('error','Something went wrong, try again');
         }
     }
+
+    public function assignDriverStoreTransferz(Request $request, $booking_id)
+    {
+        $driver = User::find($request->driver_id);
+        if($this->AssignToDriver($booking_id,$driver->name,$driver->phone_no, $notify = true)){
+            return redirect()->back()->with('msg','Driver Assigned!');
+        }
+        else{
+            return redirect()->back()->with('error','Something went wrong, try again');
+        }
+    }
     public function storeVehicle(Request $request)
     {
         $vehicle = new VehicleType();
@@ -989,11 +1072,7 @@ class HomeController extends Controller
         // $bookings = Booking::where('status',"pending")->with('passengers')->with('driver')->get();
         $bookings = Booking::with('passengers')->with('driver')->get();
 
-        $offers = $this->GetAvailableOffers(
-                $this->ApiKeyMe(
-                    $this->GenerateToken()
-                )
-            );
+        $offers = $this->GetAvailableOffers();
 
         foreach($offers as $offer){
             $return_array = array();
@@ -1012,7 +1091,11 @@ class HomeController extends Controller
                 'price_driver' => "0",
                 'passenger_nos' => $offer->journey->travellerInfo->passengerCount,
                 'currency',
-                'stops'
+                'stops',
+                'meeting' => [
+                    'meetingPointId' => $offer->meetingPoints[0]->id,
+                    'type' => $offer->meetingPoints[0]->type
+                ]
             ]);
         }
 

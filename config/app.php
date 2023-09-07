@@ -5,6 +5,9 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    'transferz_email' => env('TRANSFERZ_EMAIL'),
+    'transferz_password' => env('TRANSFERZ_PASSWORD'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

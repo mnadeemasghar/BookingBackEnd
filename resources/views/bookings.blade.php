@@ -20,6 +20,30 @@
                                 <br><i class="fa fa-car"></i> {{$transferz_booking['vehicle_type']}}
                                 <br><i class="fa fa-th"></i> {{$transferz_booking['extras']}}
                                 <br><i class="fa fa-users"></i> {{$transferz_booking['passenger_nos']}}
+                                <br>
+                                @if ($role == "Admin")
+                                <a  class="btn bg-gradient-success" href="{{route('acceptBookingTransferz',[
+                                    'id' => $transferz_booking['booking_id'],
+                                    'meetingPointId' => $transferz_booking['meeting']['meetingPointId'],
+                                    'type' => $transferz_booking['meeting']['type']
+                                    ])}}">
+                                    Accept
+                                    <i class="fa fa-check"></i>
+                                </a>
+                                <a class="btn bg-gradient-danger " href="{{route('rejectBookingTransferz',[
+                                            'id' => $transferz_booking['booking_id'],
+                                        ]
+                                    )}}">
+                                    Deny
+                                    <i class="fa fa-times"></i>
+                                </a>
+                                <br>
+                                <a class="" href="{{route('assignDriverTransferz',['booking_id' => $transferz_booking['booking_id']])}}">
+                                    <i class="fa fa-plus"></i>
+                                    Assign
+                                </a>
+
+                                @endif
                             </div>
                         </div>
                     @endforeach

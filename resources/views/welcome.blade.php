@@ -77,6 +77,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a href="{{route('vehicleTypes')}}" class="nav-item nav-link {{ request()->routeIs('vehicleTypes') ? 'active' : '' }}"><i class="fa fa-car mr-5"></i></i>Vehicle Types</a>
                     <a href="{{route('pendingBookings')}}" class="nav-item nav-link {{ request()->routeIs('pendingBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Bookings</a>
                     <a href="{{route('unattendedBookings')}}" class="nav-item nav-link notification {{ request()->routeIs('unattendedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Unattended<span class="badge">{{Helper::unattended_rides()->count()}}</span></a>
+                    <a href="{{route('transferzUser')}}" class="nav-item nav-link {{ request()->routeIs('transferzUser') ? 'active' : '' }}"><i class="fa fa-user mr-5"></i></i>Transferz User</a>
                     {{-- <a href="{{route('acceptedBookings')}}" class="nav-item nav-link {{ request()->routeIs('acceptedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Accepted</a>
                     <a href="{{route('assignedBookings')}}" class="nav-item nav-link {{ request()->routeIs('assignedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Assigned</a>
                     <a href="{{route('rejectedBookings')}}" class="nav-item nav-link {{ request()->routeIs('rejectedBookings') ? 'active' : '' }}"><i class="fa fa-book mr-5"></i></i>Rejected</a> --}}

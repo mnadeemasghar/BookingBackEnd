@@ -37,12 +37,15 @@ Route::middleware('auth')->group(function () {
     Route::get('passenger/delete/{id}', [App\Http\Controllers\HomeController::class, 'deletePassenger'])->name('deletePassenger');
     Route::get('booking/status-change/{id}/{status}', [App\Http\Controllers\HomeController::class, 'statusChangeBooking'])->name('statusChangeBooking');
     Route::get('accept-booking/{id}', [App\Http\Controllers\HomeController::class, 'acceptBooking'])->name('acceptBooking');
+    Route::get('accept-booking-transferz/{id}/{meetingPointId}/{type}', [App\Http\Controllers\HomeController::class, 'acceptBookingTransferz'])->name('acceptBookingTransferz');
     Route::get('arrive-booking/{id}', [App\Http\Controllers\HomeController::class, 'arriveBooking'])->name('arriveBooking');
     Route::get('onTheWay-booking/{id}', [App\Http\Controllers\HomeController::class, 'onTheWayBooking'])->name('onTheWayBooking');
     Route::get('onboard-booking/{id}', [App\Http\Controllers\HomeController::class, 'onboardBooking'])->name('onboardBooking');
     Route::get('complete-booking/{id}', [App\Http\Controllers\HomeController::class, 'completeBooking'])->name('completeBooking');
     Route::get('reject-booking/{id}', [App\Http\Controllers\HomeController::class, 'rejectBooking'])->name('rejectBooking');
+    Route::get('reject-booking-transferz/{id}', [App\Http\Controllers\HomeController::class, 'rejectBookingTransferz'])->name('rejectBookingTransferz');
     Route::post('reject-booking/{id}', [App\Http\Controllers\HomeController::class, 'rejectBookingPost'])->name('rejectBookingPost');
+    Route::post('reject-booking-transferz/{id}', [App\Http\Controllers\HomeController::class, 'rejectBookingPostTransferz'])->name('rejectBookingPostTransferz');
     Route::get('noshow-booking/{id}', [App\Http\Controllers\HomeController::class, 'noshowBooking'])->name('noshowBooking');
     Route::get('addStop-booking/{id}', [App\Http\Controllers\HomeController::class, 'addStopBooking'])->name('addStopBooking');
     Route::post('noshow-booking/{id}', [App\Http\Controllers\HomeController::class, 'noshowBookingPost'])->name('noshowBookingPost');
@@ -52,7 +55,9 @@ Route::middleware('auth')->group(function () {
     Route::get('add-vehicle', [App\Http\Controllers\HomeController::class, 'addVehicle'])->name('addVehicle');
     Route::get('add-partners', [App\Http\Controllers\HomeController::class, 'addPartners'])->name('addPartners');
     Route::get('assign-driver/{booking_id}/{time?}', [App\Http\Controllers\HomeController::class, 'assignDriver'])->name('assignDriver');
+    Route::get('assign-driver-transferz/{booking_id}/{time?}', [App\Http\Controllers\HomeController::class, 'assignDriverTransferz'])->name('assignDriverTransferz');
     Route::post('assign-driver-store/{booking_id}', [App\Http\Controllers\HomeController::class, 'assignDriverStore'])->name('assignDriverStore');
+    Route::post('assign-driver-store-transferz/{booking_id}', [App\Http\Controllers\HomeController::class, 'assignDriverStoreTransferz'])->name('assignDriverStoreTransferz');
     Route::get('edit-vehicle/{id}', [App\Http\Controllers\HomeController::class, 'editVehicle'])->name('editVehicle');
     Route::get('edit-passenger/{id}', [App\Http\Controllers\HomeController::class, 'editPassenger'])->name('editPassenger');
     Route::get('edit-booking/{id}', [App\Http\Controllers\HomeController::class, 'editBooking'])->name('editBooking');
@@ -90,6 +95,8 @@ Route::middleware('auth')->group(function () {
     Route::get('add_booking', [App\Http\Controllers\HomeController::class, 'addBooking'])->name('addBooking');
     Route::get('extras', [App\Http\Controllers\HomeController::class, 'extras'])->name('extras');
     Route::get('logout', [App\Http\Controllers\HomeController::class, 'logout'])->name('logout');
+    Route::get('transferz-user',[\App\Http\Controllers\HomeController::class, 'transferzUser'])->name('transferzUser');
+    Route::post('update-transferz-user', [\App\Http\Controllers\HomeController::class, 'updateTransferzUser'])->name('updateTransferzUser');
 });
 
 
