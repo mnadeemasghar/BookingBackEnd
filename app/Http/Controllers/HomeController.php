@@ -444,7 +444,20 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $email = Transferz::where("key", "TRANSFERZ_EMAIL")->first();
+        if($email == null){
+            Transferz::create([
+                "key" => "TRANSFERZ_EMAIL",
+                "value" => env('TRANSFERZ_EMAIL')
+            ]);
+        }
+
         $password = Transferz::where("key", "TRANSFERZ_PASSWORD")->first();
+        if($password == null){
+            Transferz::create([
+                "key" => "TRANSFERZ_PASSWORD",
+                "value" => env('TRANSFERZ_PASSWORD')
+            ]);
+        }
 
         return view('transferzUser')->with([
             'role' => $user->role,

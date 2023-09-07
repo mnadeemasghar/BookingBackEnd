@@ -9,7 +9,21 @@ use GuzzleHttp\Psr7\Request;
 trait GenerateToken {
     public function GenerateToken(){
         $TRANSFERZ_EMAIL = Transferz::where('key',"TRANSFERZ_EMAIL")->first();
+        if($TRANSFERZ_EMAIL == null){
+            Transferz::create([
+                "key" => "TRANSFERZ_EMAIL",
+                "value" => env('TRANSFERZ_EMAIL')
+            ]);
+        }
+
         $TRANSFERZ_PASSWORD = Transferz::where('key',"TRANSFERZ_PASSWORD")->first();
+        if($TRANSFERZ_PASSWORD == null){
+            Transferz::create([
+                "key" => "TRANSFERZ_PASSWORD",
+                "value" => env('TRANSFERZ_PASSWORD')
+            ]);
+        }
+
         $client = new Client();
         $headers = [
         'Accept' => 'application/json',
