@@ -20,6 +20,7 @@ Route::get('/clear', function () {
     $exitCode = Artisan::call('migrate');
     $exitCode = Artisan::call('cache:clear');
     $exitCode = Artisan::call('optimize');
+    $exitCode = Artisan::call('migrate');
     $exitCode = Artisan::call('route:cache');
     $exitCode = Artisan::call('route:clear');
     $exitCode = Artisan::call('view:clear');
