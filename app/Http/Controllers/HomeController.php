@@ -1087,8 +1087,8 @@ class HomeController extends Controller
 
         $offers = $this->GetAvailableOffers();
 
+        $return_array = array();
         foreach($offers as $offer){
-            $return_array = array();
             array_push($return_array,[
                 'destination' => $offer->journey->dropoff->fullResolvedAddress->streetName . ", "
                                 . $offer->journey->dropoff->fullResolvedAddress->city,

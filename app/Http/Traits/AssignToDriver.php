@@ -2,6 +2,8 @@
 
 namespace App\Http\Traits;
 
+use App\Models\Booking;
+use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
@@ -26,6 +28,24 @@ trait AssignToDriver {
             ]
         );
         $res = $client->sendAsync($request)->wait();
+
+        // check if booking_id exist
+        $booking = Booking::where("booking_id",$id)->first();
+        $driver = User::where("phone_no", $phone)->first();
+        if($booking){
+
+            $booking->update([
+                "driver_id" => $driver->id,
+                "transferz" => true
+            ]);
+        }
+        else{
+            Booking::create([
+                "booking_id" => $id,
+                "driver_id" => $driver->id,
+                "transferz" => true
+            ]);
+        }
         return json_decode($res->getBody());
     }
 }
