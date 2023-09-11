@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Http\Traits\AcceptOffer;
 use App\Http\Traits\ApiKeyMe;
 use App\Http\Traits\AssignToDriver;
+use App\Http\Traits\CompleteJourney;
 use App\Http\Traits\DeclineOffer;
 use App\Http\Traits\GenerateToken;
 use App\Http\Traits\GetAvailableOffers;
@@ -24,6 +25,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Twilio\Rest\Client;
 use App\Http\Traits\GetBookings;
+use App\Http\Traits\UpdateStatusDriverArrived;
+use App\Http\Traits\UpdateStatusDriverUnderway;
+use App\Http\Traits\UpdateStatusInProgress;
 use App\Models\Transferz;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Artisan;
@@ -37,6 +41,10 @@ class HomeController extends Controller
     use AcceptOffer;
     use DeclineOffer;
     use AssignToDriver;
+    use UpdateStatusInProgress;
+    use UpdateStatusDriverArrived;
+    use UpdateStatusDriverUnderway;
+    use CompleteJourney;
 
     public function test(){
         return $this->GetAvailableOffers(
@@ -188,6 +196,7 @@ class HomeController extends Controller
     }
     public function completeBooking($id){
         if($this->statusChangeBooking($id,'completed')){
+            $this->CompleteJourney($id, $lat = 0, $long = 0);
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -204,6 +213,7 @@ class HomeController extends Controller
     }
     public function arriveBooking($id){
         if($this->statusChangeBooking($id,'arrived')){
+            $this->UpdateStatusDriverArrived($id,$lat = 0, $long = 0);
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -212,6 +222,7 @@ class HomeController extends Controller
     }
     public function onTheWayBooking($id){
         if($this->statusChangeBooking($id,'ontheway')){
+            $this->UpdateStatusDriverUnderway($id, $lat = 0, $long = 0);
             return redirect()->back()->with('msg','Booking Status Updated!');
         }
         else{
@@ -863,7 +874,7 @@ class HomeController extends Controller
     public function assignDriverStoreTransferz(Request $request, $booking_id)
     {
         $driver = User::find($request->driver_id);
-        if($this->AssignToDriver($booking_id,$driver->name,$driver->phone_no, $notify = true)){
+        if($this->AssignToDriver($booking_id,$driver->name,$driver->phone_no, $notify = true, $price = $request->price_driver)){
             return redirect()->back()->with('msg','Driver Assigned!');
         }
         else{

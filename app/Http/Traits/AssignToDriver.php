@@ -8,7 +8,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 
 trait AssignToDriver {
-    public function AssignToDriver($id, $name, $phone, $notifyBySms){
+    public function AssignToDriver($id, $name, $phone, $notifyBySms, $price){
         $client = new Client();
         $headers = [
         'X-API-Key' => $this->ApiKeyMe(),
@@ -36,14 +36,18 @@ trait AssignToDriver {
 
             $booking->update([
                 "driver_id" => $driver->id,
-                "transferz" => true
+                "transferz" => true,
+                "price_driver" => $price,
+                "status" => "assigned"
             ]);
         }
         else{
             Booking::create([
                 "booking_id" => $id,
                 "driver_id" => $driver->id,
-                "transferz" => true
+                "transferz" => true,
+                "price_driver" => $price,
+                "status" => "assigned"
             ]);
         }
         return json_decode($res->getBody());
