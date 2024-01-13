@@ -295,25 +295,25 @@ class HomeController extends Controller
     }
 
     public function sendsms($to,$message_body){
-        $sid = env("TWILIO_SID"); // Your Account SID from www.twilio.com/console
-        $token = env("TWILIO_TOKEN"); // Your Auth Token from www.twilio.com/console
+        // $sid = env("TWILIO_SID"); // Your Account SID from www.twilio.com/console
+        // $token = env("TWILIO_TOKEN"); // Your Auth Token from www.twilio.com/console
 
-        $client = new Client($sid, $token);
+        // $client = new Client($sid, $token);
         $message = "Message Sent";
 
-        try{
-            $message = $client->messages->create(
-                $to, // Text this number
-                [
-                    'from' => '+16183615815', // From a valid Twilio number
-                    'body' => $message_body
-                ]
-            );
-        }
-        catch(Exception $e)
-        {
-            $message = $e->getMessage();
-        }
+        // try{
+        //     $message = $client->messages->create(
+        //         $to, // Text this number
+        //         [
+        //             'from' => '+16183615815', // From a valid Twilio number
+        //             'body' => $message_body
+        //         ]
+        //     );
+        // }
+        // catch(Exception $e)
+        // {
+        //     $message = $e->getMessage();
+        // }
 
         return $message;
     }

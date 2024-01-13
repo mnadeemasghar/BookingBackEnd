@@ -32,11 +32,11 @@
                                             <td>{{$partner->email}}</td>
                                             <td>{{$partner->created_at}}</td>
                                             <td>
-                                                <a href="{{route('editPartners',['id'=>$partner->id])}}"><i class="fa fa-edit"></i>Edit</a>
+                                                <a href="{{route('editPartners',['id'=>$partner->id])}}"><i class="fa fa-edit"></i></a>
                                                 |
-                                                <a href="{{route('deleteUsers',['id'=>$partner->id])}}"><i class="fa fa-trash"></i>Delete</a>
+                                                <a href="{{route('deleteUsers',['id'=>$partner->id])}}"><i class="fa fa-trash"></i></a>
                                                 |
-                                                <a href="{{route('viewUserLogs',['user_id'=>$partner->id])}}"> <i class="fa fa-file"></i>View Logs</a>
+                                                <a href="{{route('viewUserLogs',['user_id'=>$partner->id])}}"> <i class="fa fa-file"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

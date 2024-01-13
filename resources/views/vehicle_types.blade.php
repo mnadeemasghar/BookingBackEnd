@@ -28,9 +28,9 @@
                                             <th scope="row">{{$vehicle_type->id}}</th>
                                             <td>{{$vehicle_type->type}}</td>
                                             <td>
-                                                <a href="{{route('editVehicle',['id'=>$vehicle_type->id])}}"><i class="fa fa-edit"></i>Edit</a>
+                                                <a href="{{route('editVehicle',['id'=>$vehicle_type->id])}}"><i class="fa fa-edit"></i></a>
                                                 |
-                                                <a href="{{route('deleteVehicle',['id'=>$vehicle_type->id])}}"><i class="fa fa-trash"></i>Delete</a>
+                                                <a href="{{route('deleteVehicle',['id'=>$vehicle_type->id])}}"><i class="fa fa-trash"></i></a>
                                             </td>
                                         </tr>
                                     @endforeach

@@ -41,11 +41,11 @@
                                             <td>{{$driver->email}}</td>
                                             <td>{{$driver->created_at}}</td>
                                             <td>
-                                                <a href="{{route('editDrivers',['id'=>$driver->id])}}"> <i class="fa fa-edit"></i>Edit</a>
+                                                <a href="{{route('editDrivers',['id'=>$driver->id])}}"> <i class="fa fa-edit"></i></a>
                                                 |
-                                                <a href="{{route('deleteUsers',['id'=>$driver->id])}}"> <i class="fa fa-trash"></i>Delete</a>
+                                                <a href="{{route('deleteUsers',['id'=>$driver->id])}}"> <i class="fa fa-trash"></i></a>
                                                 |
-                                                <a href="{{route('viewUserLogs',['user_id'=>$driver->id])}}"> <i class="fa fa-file"></i>View Logs</a>
+                                                <a href="{{route('viewUserLogs',['user_id'=>$driver->id])}}"> <i class="fa fa-file"></i></a>
 
                                             </td>
                                         </tr>

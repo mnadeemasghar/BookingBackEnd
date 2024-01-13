@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>NXL Admin</title>
+    <title>{{env("APP_NAME")}} Admin</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -51,7 +51,7 @@
         <div class="sidebar pe-4 pb-3">
             <nav class="navbar bg-secondary navbar-dark">
                 <a href="{{route('home')}}" class="navbar-brand mx-4 mb-3">
-                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>NXL</h3>
+                    <h3 class="text-primary"><i class="fa fa-user-edit me-2"></i>{{env("APP_NAME")}}</h3>
                 </a>
                 <div class="d-flex align-items-center ms-4 mb-4">
                     <div class="position-relative">
@@ -96,11 +96,11 @@
             <div class="bg-secondary rounded-top p-4">
                 <div class="row">
                     <div class="col-12 col-sm-6 text-center text-sm-start">
-                        &copy; <a href="#">NXL</a>, All Right Reserved.
+                        &copy; <a href="#">{{env("APP_NAME")}}</a>, All Right Reserved.
                     </div>
                     <div class="col-12 col-sm-6 text-center text-sm-end">
                         <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                        Designed By <a href="#">Luxsit Technologies</a>
+                        Designed By <a href="#">{{env("APP_NAME")}}</a>
                     </div>
                 </div>
             </div>
